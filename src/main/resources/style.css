@@ -1,0 +1,24 @@
+/* dashboard.css */
+
+.sidebar {
+    -fx-background-color: #1E1E2F;
+}
+
+.sidebar-button {
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+    -fx-padding: 10 20;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: #2A2A3F;
+}
+/* styles/dashboard.css */
+
+.sidebar {
+    -fx-background-color: #1E1E2F;
+}
+
+
