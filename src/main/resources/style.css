@@ -1,24 +1,28 @@
-/* dashboard.css */
-
 .sidebar {
     -fx-background-color: #1E1E2F;
 }
 
 .sidebar-button {
-    -fx-font-size: 14px;
+    -fx-font-size: 16px;
     -fx-text-fill: white;
     -fx-background-color: transparent;
     -fx-padding: 10 20;
     -fx-alignment: CENTER_LEFT;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 2 0;
+    -fx-border-style: solid;
+    -fx-alignment: CENTER;
+
+    /* NEW STYLES */
+    -fx-font-weight: bold;         /* Make text bold */
+    -fx-pref-width: 140px;         /* Set uniform width */
+    -fx-pref-height: 40px;         /* Set uniform height */
 }
 
 .sidebar-button:hover {
-    -fx-background-color: #2A2A3F;
+    -fx-background-color: #08c1ff;
+    -fx-text-fill:#1E1E2F ;
+
+    /* No need to set border here anymore because we animate underline in Java */
 }
-/* styles/dashboard.css */
-
-.sidebar {
-    -fx-background-color: #1E1E2F;
-}
-
-
