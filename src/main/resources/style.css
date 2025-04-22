@@ -7,12 +7,11 @@
     -fx-text-fill: white;
     -fx-background-color: transparent;
     -fx-padding: 10 20;
-    -fx-alignment: CENTER_LEFT;
     -fx-cursor: hand;
     -fx-border-color: transparent;
     -fx-border-width: 0 0 2 0;
     -fx-border-style: solid;
-    -fx-alignment: CENTER;
+   -fx-alignment: CENTER;
 
     /* NEW STYLES */
     -fx-font-weight: bold;         /* Make text bold */
@@ -22,7 +21,52 @@
 
 .sidebar-button:hover {
     -fx-background-color: #08c1ff;
-    -fx-text-fill:#1E1E2F ;
+    -fx-text-fill: #1E1E2F;
+}
 
-    /* No need to set border here anymore because we animate underline in Java */
+.navbar {
+    -fx-background-color: #ffffff; /* Background color for the navbar */
+    -fx-border-color: #cccccc; /* Border color for the navbar */
+    -fx-border-width: 1; /* Border width for the navbar */
+}
+
+.nav-button {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;         /* Make text bold */
+
+    -fx-text-fill: white; /* Text color for the nav button */
+    -fx-background-color: linear-gradient(#1E1E2F,#0808b2); /* Gradient background */
+    -fx-padding: 10 20; /* Padding for the nav button */
+    -fx-cursor: hand; /* Hand cursor on hover */
+}
+
+.nav-button:hover {
+    -fx-background-color: linear-gradient(#12127e, #26264a); /* Darker gradient on hover */
+}
+
+.profile-image-container {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-background-radius: 50%; /* This ensures it's a circle */
+    -fx-border-radius: 50%; /* This ensures the border is also circular */
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0.5, 1, 1);
+}
+.nav-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+.date-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666;
+}
+
+.profile-image-container {
+    -fx-cursor: hand;
 }

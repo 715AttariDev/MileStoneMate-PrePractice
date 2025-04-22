@@ -13,7 +13,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         root = new BorderPane();
-        root.setCenter(DashBoardView.getView());
+        root.setCenter(Layout.getView());
         Scene scene = new Scene(root, 1280, 720);
         primaryStage.setTitle("MileStone Mate ");
         primaryStage.setScene(scene);
