@@ -2,13 +2,12 @@ package com.example.milestonemate_1;
 
 import javafx.animation.ScaleTransition;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 public class DashBoardView {
@@ -20,7 +19,7 @@ public class DashBoardView {
         button.getStyleClass().add("sidebar-button"); // Apply the sidebar-button CSS style
 
         // Create the underline rectangle (initially width = 0)
-        Rectangle underline = new Rectangle(0, 2);
+        javafx.scene.shape.Rectangle underline = new javafx.scene.shape.Rectangle(0, 2);
         underline.setStyle("-fx-fill: #00aaff;"); // Blue color for underline
         underline.setTranslateY(10); // Slightly move the underline below the button text
 
@@ -85,8 +84,81 @@ public class DashBoardView {
         AnchorPane.setLeftAnchor(sideBar, 0.0);
         sideBar.setPrefWidth(200); // Fixed sidebar width
 
-        // Add sidebar to the main layout
-        dashAnchorPane.getChildren().add(sideBar);
+        // Create the navigation bar
+        HBox navBar = new HBox();
+        navBar.setPadding(new Insets(10)); // Padding around the navbar
+        navBar.setSpacing(10); // Spacing between elements
+        navBar.getStyleClass().add("navbar"); // Apply navbar CSS
+        navBar.setAlignment(Pos.CENTER); // Align content center vertically
+
+        // Create Sign Up button
+        Button signUpButton = new Button("Sign Up");
+        signUpButton.getStyleClass().add("nav-button"); // Apply nav-button CSS
+
+        // Create a spacer to push elements to the right
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        // Create profile image (circular)
+        ImageView profileImageView = new ImageView();
+        try {
+            Image profileImage = new Image(DashBoardView.class.getResource("/images/MAbdulRahimImage.png").toExternalForm());
+            profileImageView.setImage(profileImage);
+            profileImageView.setFitWidth(30); // Set image size
+            profileImageView.setFitHeight(30);
+            profileImageView.setPreserveRatio(true);
+
+        } catch (Exception e) {
+            System.out.println("⚠️ Profile image not found. Check path: /images/MAbdulRahimImage.png");
+        }
+
+// Apply the CSS class for circular styling
+        profileImageView.getStyleClass().add("profile-image");
+
+// Add hover effect
+        profileImageView.setOnMouseEntered(e -> {
+            ScaleTransition scale = new ScaleTransition(Duration.millis(200), profileImageView);
+            scale.setToX(1.1);
+            scale.setToY(1.1);
+            scale.play();
+        });
+
+        profileImageView.setOnMouseExited(e -> {
+            ScaleTransition scale = new ScaleTransition(Duration.millis(200), profileImageView);
+            scale.setToX(1);
+            scale.setToY(1);
+            scale.play();
+        });
+
+// Apply the CSS class for circular styling
+        profileImageView.getStyleClass().add("profile-image");
+
+// Add hover effect
+        profileImageView.setOnMouseEntered(e -> {
+            ScaleTransition scale = new ScaleTransition(Duration.millis(200), profileImageView);
+            scale.setToX(1.1);
+            scale.setToY(1.1);
+            scale.play();
+        });
+
+        profileImageView.setOnMouseExited(e -> {
+            ScaleTransition scale = new ScaleTransition(Duration.millis(200), profileImageView);
+            scale.setToX(1);
+            scale.setToY(1);
+            scale.play();
+        });
+
+
+        // Add spacer, Sign Up button, and profile image to navbar
+        navBar.getChildren().addAll(spacer, signUpButton, profileImageView);
+
+        // Add navbar and sidebar to the main container
+        dashAnchorPane.getChildren().addAll(navBar, sideBar);
+
+        // Anchor the navbar to the top of the window
+        AnchorPane.setTopAnchor(navBar, 0.0);
+        AnchorPane.setLeftAnchor(navBar, 200.0); // Position navbar to the right of the sidebar
+        AnchorPane.setRightAnchor(navBar, 0.0); // Align navbar to the right edge of the window
 
         return dashAnchorPane;
     }

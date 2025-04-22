@@ -22,7 +22,35 @@
 
 .sidebar-button:hover {
     -fx-background-color: #08c1ff;
-    -fx-text-fill:#1E1E2F ;
+    -fx-text-fill: #1E1E2F;
+}
 
-    /* No need to set border here anymore because we animate underline in Java */
+.navbar {
+    -fx-background-color: #ffffff; /* Background color for the navbar */
+    -fx-border-color: #cccccc; /* Border color for the navbar */
+    -fx-border-width: 1; /* Border width for the navbar */
+}
+
+.nav-button {
+    -fx-font-size: 16px;
+    -fx-text-fill: #1E1E2F; /* Text color for the nav button */
+    -fx-background-color: #f0f0f0; /* Background color for the nav button */
+    -fx-padding: 10 20; /* Padding for the nav button */
+    -fx-cursor: hand; /* Hand cursor on hover */
+}
+
+.nav-button:hover {
+    -fx-background-color: #e0e0e0; /* Change background on hover */
+}
+
+.profile-image {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-background-radius: 50%; /* This ensures it's a circle */
+    -fx-border-radius: 50%; /* This ensures the border is also circular */
+    -fx-fit-width: 30px; /* Fit width */
+    -fx-fit-height: 30px; /* Fit height */
+    -fx-preserve-ratio: true; /* Maintain aspect ratio */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0.5, 1, 1);
 }
