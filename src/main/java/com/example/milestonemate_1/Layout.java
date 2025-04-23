@@ -11,6 +11,7 @@ import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class Layout {
 
@@ -64,7 +65,7 @@ public class Layout {
         // Load and display the app logo
         ImageView logoView = new ImageView();
         try {
-            Image logo = new Image(Layout.class.getResource("/images/Blue Logo.png").toExternalForm());
+            Image logo = new Image(Objects.requireNonNull(Layout.class.getResource("/images/Blue Logo.png")).toExternalForm());
             logoView.setImage(logo);
             logoView.setFitWidth(150); // Set logo width
             logoView.setPreserveRatio(true); // Keep logo's aspect ratio
@@ -171,7 +172,7 @@ public class Layout {
         // Create profile image
         ImageView profileImageView = new ImageView();
         try {
-            Image profileImage = new Image(Layout.class.getResource("/images/MAbdulRahimImage.png").toExternalForm());
+            Image profileImage = new Image(Objects.requireNonNull(Layout.class.getResource("/images/MAbdulRahimImage.png")).toExternalForm());
             profileImageView.setImage(profileImage);
             profileImageView.setFitWidth(60); // Set image size
             profileImageView.setFitHeight(60);
