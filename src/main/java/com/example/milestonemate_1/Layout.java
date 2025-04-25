@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+
 public class Layout {
 
     private static void animateNavTitleChange(Label label, String newTitle) {
@@ -23,7 +24,7 @@ public class Layout {
         fadeOut.setToValue(0.0);
         fadeOut.setOnFinished(event -> {
             label.setText(newTitle);
-            FadeTransition fadeIn = new FadeTransition(Duration.millis(200), label);
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(250), label);
             fadeIn.setFromValue(0.0);
             fadeIn.setToValue(1.0);
             fadeIn.play();
@@ -82,30 +83,31 @@ public class Layout {
             System.out.println("⚠️ Logo image not found. Check path: /images/Blue Logo.png");
         }
 
+        sideBar.getChildren().add(logoView);
+
         Button[] dashboardBtnRef = new Button[1];
-        Button[] tasksBtnRef = new Button[1];
-        Button[] teamBtnRef = new Button[1];
-
         StackPane dashboardBtn = createAnimatedButton("Dashboard", dashboardBtnRef);
-        StackPane tasksBtn = createAnimatedButton("Tasks", tasksBtnRef);
-        StackPane teamBtn = createAnimatedButton("Team", teamBtnRef);
-
         dashboardBtnRef[0].setOnAction(e -> {
             centerContent.getChildren().setAll(new com.example.milestonemate_1.views.DashBoardView().getView());
             animateNavTitleChange(dashboardLeftLabel, "Dashboard");
         });
+        sideBar.getChildren().add(dashboardBtn);
 
-        tasksBtnRef[0].setOnAction(e -> {
-            centerContent.getChildren().setAll(new com.example.milestonemate_1.views.TasksView().getView());
-            animateNavTitleChange(dashboardLeftLabel, "Tasks");
-        });
+        if (role.equals("Manager")) {
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Create Team", new com.example.milestonemate_1.views.CreateTeamView());
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Create Project", new com.example.milestonemate_1.views.CreateProjectView());
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Kanban Board", new com.example.milestonemate_1.views.KanbanBoardView());
+        } else if (role.equals("Team Lead")) {
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Review Tasks", new com.example.milestonemate_1.views.ReviewTasksView());
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Kanban Board", new com.example.milestonemate_1.views.KanbanBoardView());
+        } else if (role.equals("Team Member")) {
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "My Tasks", new com.example.milestonemate_1.views.MyTasksView());
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Reviewed Tasks", new com.example.milestonemate_1.views.ReviewedTasksView());
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Kanban Board", new com.example.milestonemate_1.views.KanbanBoardView());
+        } else {
+            System.out.println("⚠️ Unknown role: " + role);
+        }
 
-        teamBtnRef[0].setOnAction(e -> {
-            centerContent.getChildren().setAll(new com.example.milestonemate_1.views.TeamView().getView());
-            animateNavTitleChange(dashboardLeftLabel, "Team");
-        });
-
-        sideBar.getChildren().addAll(logoView, dashboardBtn, tasksBtn, teamBtn);
         AnchorPane.setTopAnchor(sideBar, 0.0);
         AnchorPane.setBottomAnchor(sideBar, 0.0);
         AnchorPane.setLeftAnchor(sideBar, 0.0);
@@ -150,7 +152,6 @@ public class Layout {
         }
 
         profileImageContainer.getChildren().add(profileImageView);
-
         HBox.setMargin(profileImageContainer, new Insets(0, 15, 0, 0));
 
         profileImageContainer.setOnMouseEntered(e -> {
@@ -194,5 +195,18 @@ public class Layout {
         dashAnchorPane.getChildren().add(centerContent);
 
         return dashAnchorPane;
+    }
+
+    // 🔄 Updated for Java 8-15 compatibility (classic instanceof + cast)
+    private static void addSidebarButton(VBox sideBar, StackPane centerContent, Label navLabel, String labelText, Object viewInstance) {
+        Button[] btnRef = new Button[1];
+        StackPane btn = createAnimatedButton(labelText, btnRef);
+        btnRef[0].setOnAction(e -> {
+            if (viewInstance instanceof com.example.milestonemate_1.views.ViewProvider viewProvider) {
+                centerContent.getChildren().setAll(viewProvider.getView());
+                animateNavTitleChange(navLabel, labelText);
+            }
+        });
+        sideBar.getChildren().add(btn);
     }
 }

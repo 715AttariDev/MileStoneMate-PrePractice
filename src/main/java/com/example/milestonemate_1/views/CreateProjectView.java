@@ -3,20 +3,17 @@ package com.example.milestonemate_1.views;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
-import java.util.Objects;
-
-public class DashBoardView implements ViewProvider{
-
+public class CreateProjectView implements ViewProvider{
     public AnchorPane getView() {
         AnchorPane pane = new AnchorPane();
 
-        Label welcomeLabel = new Label("👋 Welcome to your Dashboard!");
+        Label welcomeLabel = new Label("👋 Welcome to Create View !");
         welcomeLabel.setStyle("-fx-font-size: 22px; -fx-font-weight: bold;");
         AnchorPane.setTopAnchor(welcomeLabel, 20.0);
         AnchorPane.setLeftAnchor(welcomeLabel, 20.0);
 
         // Placeholder for stats
-        Label statsLabel = new Label("📊 Project Overview Coming Soon...");
+        Label statsLabel = new Label("This is boilerplate for developer to start code ...");
         statsLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: #555;");
         AnchorPane.setTopAnchor(statsLabel, 60.0);
         AnchorPane.setLeftAnchor(statsLabel, 20.0);

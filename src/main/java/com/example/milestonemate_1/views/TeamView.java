@@ -8,7 +8,7 @@ public class TeamView {
     public AnchorPane getView() {
         AnchorPane pane = new AnchorPane();
 
-        Label label = new Label("👥 This is the Team View");
+        Label label = new Label("Hey iam also not used!");
         label.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
         AnchorPane.setTopAnchor(label, 20.0);
         AnchorPane.setLeftAnchor(label, 20.0);
