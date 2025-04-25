@@ -5,7 +5,7 @@
 .sidebar-button {
     -fx-font-size: 16px;
     -fx-text-fill: white;
-    -fx-background-color: transparent;
+    -fx-background-color: transparent !important;
     -fx-padding: 10 20;
     -fx-cursor: hand;
     -fx-border-color: transparent;
@@ -20,7 +20,7 @@
 }
 
 .sidebar-button:hover {
-    -fx-background-color: #08c1ff;
+    -fx-background-color: #08c1ff !important;
     -fx-text-fill: #1E1E2F;
 }
 
@@ -69,4 +69,115 @@
 
 .profile-image-container {
     -fx-cursor: hand;
+}
+/* General Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Body Background */
+.scene {
+    -fx-background-color: #f4f6f9;
+}
+
+/* Title Styling */
+.label {
+    -fx-text-fill: #333;
+}
+
+.label.large {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3c3c3c;
+}
+
+/* Login Box Styling */
+.vbox {
+    -fx-alignment: center;
+    -fx-spacing: 20px;
+    -fx-background-color: white;
+    -fx-padding: 30px;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+}
+
+/* Input Fields Styling */
+.text-field, .password-field {
+    -fx-background-color: #f1f1f1;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-pref-width: 250px;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #3c8dbc;
+    -fx-background-color: #fff;
+}
+
+/* Button Styling */
+.button {
+    -fx-background-color: #3c8dbc;
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-font-size: 16px;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
+    -fx-pref-width: 250px;
+}
+
+.button:hover {
+    -fx-background-color: #3578a3;
+}
+
+.button:pressed {
+    -fx-background-color: #2c6a8f;
+}
+
+/* Register Button Styling */
+.button.secondary {
+    -fx-background-color: transparent;
+    -fx-text-fill: #3c8dbc;
+    -fx-padding: 10px 20px;
+    -fx-font-size: 14px;
+    -fx-border-color: #3c8dbc;
+    -fx-border-radius: 5px;
+}
+
+.button.secondary:hover {
+    -fx-background-color: #f1f1f1;
+}
+
+.button.secondary:pressed {
+    -fx-background-color: #e1e1e1;
+}
+
+/* Alerts Styling */
+.alert {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-color: #f8d7da;
+    -fx-text-fill: #721c24;
+    -fx-padding: 10px;
+    -fx-border-radius: 5px;
+}
+
+.alert-info {
+    -fx-background-color: #d1ecf1;
+    -fx-text-fill: #0c5460;
+}
+
+.alert-warning {
+    -fx-background-color: #fff3cd;
+    -fx-text-fill: #856404;
+}
+
+/* Centering the Login Form */
+.vbox {
+    -fx-alignment: center;
+    -fx-spacing: 20px;
 }

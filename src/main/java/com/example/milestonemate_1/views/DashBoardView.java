@@ -3,12 +3,13 @@ package com.example.milestonemate_1.views;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
+import java.util.Objects;
+
 public class DashBoardView {
 
     public AnchorPane getView() {
         AnchorPane pane = new AnchorPane();
 
-        // Welcome label
         Label welcomeLabel = new Label("👋 Welcome to your Dashboard!");
         welcomeLabel.setStyle("-fx-font-size: 22px; -fx-font-weight: bold;");
         AnchorPane.setTopAnchor(welcomeLabel, 20.0);
@@ -22,6 +23,7 @@ public class DashBoardView {
 
         pane.getChildren().addAll(welcomeLabel, statsLabel);
         pane.setStyle("-fx-background-color: #ffffff;-fx-background-radius: 15;");
+
         return pane;
     }
 }
