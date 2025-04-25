@@ -1,25 +1,21 @@
 package com.example.milestonemate_1;
 
+import com.example.milestonemate_1.views.LoginView;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.util.Objects;
 
 public class Main extends Application {
-    private static BorderPane root;
-
     @Override
     public void start(Stage primaryStage) {
-        root = new BorderPane();
-        root.setCenter(Layout.getView());
-        Scene scene = new Scene(root, 1280, 720);
-        primaryStage.setTitle("MileStone Mate ");
-        primaryStage.setScene(scene);
-
+        LoginView loginView = new LoginView();
+        Scene loginScene = loginView.getScene(primaryStage); // This will handle login and redirection
+        primaryStage.setScene(loginScene);
+        primaryStage.setTitle("MileStone Mate");
         // Correct way to load CSS
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
+        loginScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/style.css")).toExternalForm());
         primaryStage.show();
     }
 

@@ -1,5 +1,5 @@
 .sidebar {
-    -fx-background-color: #1E1E2F;
+    -fx-background-color:linear-gradient(from 0.0% 0.0% to 93.10000000000001% 0.0%, #080935 0.0%, #080935 0.662%, #09084b 100.0%);
 }
 
 .sidebar-button {
@@ -35,13 +35,13 @@
     -fx-font-weight: bold;         /* Make text bold */
 
     -fx-text-fill: white; /* Text color for the nav button */
-    -fx-background-color: linear-gradient(#1E1E2F,#0808b2); /* Gradient background */
+    -fx-background-color:linear-gradient(from 0.0% 0.0% to 100.0% 0.0%, #17014bff 0.0%, #17014bff 8.874%, #00327dff 100.0%);
     -fx-padding: 10 20; /* Padding for the nav button */
     -fx-cursor: hand; /* Hand cursor on hover */
 }
 
 .nav-button:hover {
-    -fx-background-color: linear-gradient(#12127e, #26264a); /* Darker gradient on hover */
+    -fx-background-color:linear-gradient(from 0.0% 0.0% to 100.0% 0.0%, #17014bff 0.0%, #17014bff 8.874%, #09084b 100.0%);
 }
 
 .profile-image-container {
