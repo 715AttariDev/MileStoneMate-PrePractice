@@ -3,7 +3,6 @@ package com.example.milestonemate_1.views;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
-import java.util.Objects;
 
 public class DashBoardView implements ViewProvider{
 
