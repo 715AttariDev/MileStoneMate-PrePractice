@@ -1,5 +1,6 @@
 package com.example.milestonemate_1;
 
+import com.example.milestonemate_1.views.LoginView;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.geometry.Insets;
@@ -9,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.time.LocalDate;
@@ -119,6 +121,16 @@ public class Layout {
         navBar.getStyleClass().add("navbar");
         navBar.setAlignment(Pos.CENTER);
 
+        // Create Logout Button
+        Button logoutButton = new Button("Logout");
+        logoutButton.getStyleClass().add("LogOut_button");
+        logoutButton.setOnAction(e -> {
+            Session.setUser(null); // Clear session
+            Stage stage = (Stage) logoutButton.getScene().getWindow();
+            stage.setScene(new LoginView().getScene(stage)); // Back to login
+        });
+
+
         dashboardLeftLabel.setPadding(new Insets(21));
         dashboardLeftLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;");
 
@@ -137,22 +149,21 @@ public class Layout {
         StackPane profileImageContainer = new StackPane();
         profileImageContainer.getStyleClass().add("profile-image-container");
 
-        ImageView profileImageView = new ImageView();
-        try {
-            Image profileImage = new Image(Objects.requireNonNull(Layout.class.getResource("/images/MAbdulRahimImage.png")).toExternalForm());
-            profileImageView.setImage(profileImage);
-            profileImageView.setFitWidth(60);
-            profileImageView.setFitHeight(60);
-            profileImageView.setPreserveRatio(true);
+        // Create a Circle for profile avatar
+        Circle avatarCircle = new Circle(25); // radius 30 for 60x60 size
 
-            Circle clip = new Circle(30, 30, 30);
-            profileImageView.setClip(clip);
-        } catch (Exception e) {
-            System.out.println("⚠️ Profile image not found. Check path: /images/MAbdulRahimImage.png");
-        }
+// Random background color (choose some soft nice ones manually)
+        String[] colors = {"#FF6B6B", "#6BCB77", "#4D96FF", "#FF6F91", "#845EC2", "#00C9A7"};
+        int randomIndex = (int) (Math.random() * colors.length);
+        avatarCircle.setStyle("-fx-fill: " + colors[randomIndex] + ";");
 
-        profileImageContainer.getChildren().add(profileImageView);
-        HBox.setMargin(profileImageContainer, new Insets(0, 15, 0, 0));
+// Create a Label for first letter
+        Label firstLetterLabel = new Label(role.substring(0, 1).toUpperCase()); // Taking first letter of role (you can use username too)
+        firstLetterLabel.setStyle("-fx-text-fill: white; -fx-font-size: 20 px; -fx-font-weight: bold;");
+
+        profileImageContainer.getChildren().addAll(avatarCircle, firstLetterLabel);
+        profileImageContainer.setAlignment(Pos.CENTER);
+
 
         profileImageContainer.setOnMouseEntered(e -> {
             ScaleTransition scale = new ScaleTransition(Duration.millis(200), profileImageContainer);
@@ -173,8 +184,10 @@ public class Layout {
                 spacer,
                 dashboardRightLabel,
                 dateLabel,
-                profileImageContainer
+                profileImageContainer,
+                logoutButton // 👈 Add here to show it on the right
         );
+
 
         dashAnchorPane.getChildren().addAll(navBar, sideBar);
 

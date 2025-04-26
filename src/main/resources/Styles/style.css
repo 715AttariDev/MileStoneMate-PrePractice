@@ -54,7 +54,6 @@
     -fx-min-height: 30px;
     -fx-max-width: 30px;
     -fx-max-height: 30px;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0.5, 1, 1);
 }
 .nav-label {
     -fx-font-size: 16px;
@@ -176,8 +175,17 @@
     -fx-text-fill: #856404;
 }
 
-/* Centering the Login Form */
-.vbox {
-    -fx-alignment: center;
-    -fx-spacing: 20px;
+.LogOut_button {
+    -fx-background-color: #087fff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 8;
+    -fx-pref-width: 100px;
+    -fx-pref-height: 40px;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
 }
+.LogOut_button:hover {
+    -fx-background-color: #005aba;
+}
+
