@@ -72,7 +72,6 @@ public class LoginView {
 
         return scene;
     }
-
     private void handleLogin(Stage stage, String username, String password) {
         if (username.isEmpty() || password.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Please fill in all fields");

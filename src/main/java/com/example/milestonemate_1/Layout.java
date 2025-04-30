@@ -5,11 +5,13 @@ import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -17,8 +19,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-
 public class Layout {
+
+
 
     private static void animateNavTitleChange(Label label, String newTitle) {
         FadeTransition fadeOut = new FadeTransition(Duration.millis(150), label);
@@ -36,14 +39,13 @@ public class Layout {
 
     private static StackPane createAnimatedButton(String buttonText, Button[] buttonRef) {
         Button button = new Button(buttonText);
-        button.getStyleClass().add("sidebar-button");
+        button.getStyleClass().addAll("sidebar-button");
 
-        javafx.scene.shape.Rectangle underline = new javafx.scene.shape.Rectangle(0, 2);
-        underline.setStyle("-fx-fill: #00aaff;");
+        Rectangle underline = new Rectangle(0, 2);
+        underline.getStyleClass().add("sidebar-button-underline");
         underline.setTranslateY(10);
 
         StackPane buttonStack = new StackPane(button, underline);
-        buttonStack.setPickOnBounds(false);
 
         buttonRef[0] = button;
 
@@ -68,8 +70,10 @@ public class Layout {
     public static AnchorPane getView(String role) {
         AnchorPane dashAnchorPane = new AnchorPane();
         Label dashboardLeftLabel = new Label("Dashboard");
+        dashboardLeftLabel.getStyleClass().add("nav-label");
 
         StackPane centerContent = new StackPane();
+        centerContent.getStyleClass().add("content-background");
 
         VBox sideBar = new VBox(20);
         sideBar.setPadding(new Insets(30));
@@ -99,13 +103,18 @@ public class Layout {
             addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Create Team", new com.example.milestonemate_1.views.CreateTeamView());
             addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Create Project", new com.example.milestonemate_1.views.CreateProjectView());
             addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Kanban Board", new com.example.milestonemate_1.views.KanbanBoardView());
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "About", new com.example.milestonemate_1.views.AboutSectionView());
         } else if (role.equals("Team Lead")) {
             addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Review Tasks", new com.example.milestonemate_1.views.ReviewTasksView());
             addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Kanban Board", new com.example.milestonemate_1.views.KanbanBoardView());
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "About", new com.example.milestonemate_1.views.AboutSectionView());
+
         } else if (role.equals("Team Member")) {
             addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "My Tasks", new com.example.milestonemate_1.views.MyTasksView());
             addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Reviewed Tasks", new com.example.milestonemate_1.views.ReviewedTasksView());
             addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Kanban Board", new com.example.milestonemate_1.views.KanbanBoardView());
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "About", new com.example.milestonemate_1.views.AboutSectionView());
+
         } else {
             System.out.println("⚠️ Unknown role: " + role);
         }
@@ -121,49 +130,41 @@ public class Layout {
         navBar.getStyleClass().add("navbar");
         navBar.setAlignment(Pos.CENTER);
 
-        // Create Logout Button
+
+
         Button logoutButton = new Button("Logout");
         logoutButton.getStyleClass().add("LogOut_button");
         logoutButton.setOnAction(e -> {
-            Session.setUser(null); // Clear session
+            Session.setUser(null);
             Stage stage = (Stage) logoutButton.getScene().getWindow();
-            stage.setScene(new LoginView().getScene(stage)); // Back to login
+            stage.setScene(new LoginView().getScene(stage));
         });
 
-
-        dashboardLeftLabel.setPadding(new Insets(21));
-        dashboardLeftLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;");
-
         Label dashboardRightLabel = new Label(role);
-        dashboardRightLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;");
+        dashboardRightLabel.getStyleClass().add("nav-label");
 
         Label dateLabel = new Label();
-        dateLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #666;");
+        dateLabel.getStyleClass().add("date-label");
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, MMM d, yyyy");
         dateLabel.setText(currentDate.format(formatter));
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
-
         StackPane profileImageContainer = new StackPane();
         profileImageContainer.getStyleClass().add("profile-image-container");
 
-        // Create a Circle for profile avatar
-        Circle avatarCircle = new Circle(25); // radius 30 for 60x60 size
-
-// Random background color (choose some soft nice ones manually)
+        Circle avatarCircle = new Circle(25);
+        avatarCircle.getStyleClass().add("avatar-circle");
         String[] colors = {"#FF6B6B", "#6BCB77", "#4D96FF", "#FF6F91", "#845EC2", "#00C9A7"};
-        int randomIndex = (int) (Math.random() * colors.length);
-        avatarCircle.setStyle("-fx-fill: " + colors[randomIndex] + ";");
+        int randomIndex = (int)(Math.random() * colors.length);
+        avatarCircle.setStyle("-fx-fill:" + colors[randomIndex] + ";");
 
-// Create a Label for first letter
-        Label firstLetterLabel = new Label(role.substring(0, 1).toUpperCase()); // Taking first letter of role (you can use username too)
-        firstLetterLabel.setStyle("-fx-text-fill: white; -fx-font-size: 20 px; -fx-font-weight: bold;");
+        Label firstLetterLabel = new Label(role.substring(0, 1).toUpperCase());
+        firstLetterLabel.getStyleClass().add("initial-label");  // Ensure this applies the .initial-label class
 
         profileImageContainer.getChildren().addAll(avatarCircle, firstLetterLabel);
         profileImageContainer.setAlignment(Pos.CENTER);
-
 
         profileImageContainer.setOnMouseEntered(e -> {
             ScaleTransition scale = new ScaleTransition(Duration.millis(200), profileImageContainer);
@@ -179,15 +180,15 @@ public class Layout {
             scale.play();
         });
 
+
         navBar.getChildren().addAll(
                 dashboardLeftLabel,
                 spacer,
                 dashboardRightLabel,
                 dateLabel,
                 profileImageContainer,
-                logoutButton // 👈 Add here to show it on the right
+                logoutButton
         );
-
 
         dashAnchorPane.getChildren().addAll(navBar, sideBar);
 
@@ -196,7 +197,6 @@ public class Layout {
         AnchorPane.setRightAnchor(navBar, 0.0);
 
         centerContent.setPadding(new Insets(20));
-        centerContent.setStyle("-fx-background-color: #f4f4f4; ");
 
         centerContent.getChildren().setAll(new com.example.milestonemate_1.views.DashBoardView().getView());
 
@@ -210,12 +210,12 @@ public class Layout {
         return dashAnchorPane;
     }
 
-    // 🔄 Updated for Java 8-15 compatibility (classic instanceof + cast)
     private static void addSidebarButton(VBox sideBar, StackPane centerContent, Label navLabel, String labelText, Object viewInstance) {
         Button[] btnRef = new Button[1];
         StackPane btn = createAnimatedButton(labelText, btnRef);
         btnRef[0].setOnAction(e -> {
-            if (viewInstance instanceof com.example.milestonemate_1.views.ViewProvider viewProvider) {
+            if (viewInstance instanceof com.example.milestonemate_1.views.ViewProvider) {
+                com.example.milestonemate_1.views.ViewProvider viewProvider = (com.example.milestonemate_1.views.ViewProvider) viewInstance;
                 centerContent.getChildren().setAll(viewProvider.getView());
                 animateNavTitleChange(navLabel, labelText);
             }

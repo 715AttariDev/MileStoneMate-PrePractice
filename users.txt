@@ -2,3 +2,4 @@ Faiz,12345,Manager
 Bilal,12345,Team Lead
 leader,leader,Team Lead
 hello,hello,Team Member
+Ali,ali,Team Member
