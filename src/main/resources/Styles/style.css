@@ -1,7 +1,8 @@
 /* Global font for the whole app */
 * {
-    -fx-font-family: "Arial Rounded MT Bold";
+    -fx-font-family: "SF Pro Display Regular";
 }
+/* Here's the css of Layout.java */
 
 /* Sidebar */
 .sidebar {
@@ -42,7 +43,7 @@
     -fx-border-width: 1px;
     -fx-padding: 12px 25px;
 }
-/* Profile Image */
+
 /* Profile Image */
 .profile-image-container {
     -fx-border-color: #444444;
@@ -77,6 +78,7 @@
     -fx-text-fill: #666;
 }
 
+/* Here's the css of LoginView.java */
 /* Login Box */
 .vbox {
     -fx-alignment: center;
@@ -179,10 +181,145 @@
     -fx-background-radius: 15;
 }
 
-/* Member List Container Style */
+//* ====== Member List Container ====== */
+ .member-list-container {
+     -fx-border-color: #ccc;
+     -fx-border-width: 1px;
+     -fx-border-radius: 10px;
+     -fx-padding: 15px;
+     -fx-background-color: #fafafa;
+     -fx-spacing: 10px;
+     -fx-pref-height: 200px; /* Ensures a good size */
+     -fx-pref-width: 320px; /* Nice width alignment with other inputs */
+     -fx-overflow: auto;
+ }
+
+
+
+/* ====== Member List Container ====== */
 .member-list-container {
     -fx-border-color: #ccc;
-    -fx-border-radius: 8;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-padding: 8px;
+    -fx-background-color: #fafafa;
+
 }
 
-/* Add additional styles as needed */
+/* ====== CheckBox inside the List ====== */
+.member-list-container .check-box {
+    -fx-padding: 1px;
+    -fx-font-size: 13px;
+    -fx-background-radius: 4px;
+}
+
+.member-list-container .check-box:hover {
+    -fx-background-color: #f0f0f0;
+    -fx-cursor: hand;
+}
+
+/* ====== Form Titles ====== */
+.form-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #444;
+}
+
+/* ====== Create Button ====== */
+.create-button {
+    -fx-background-color: #087fff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 12px;
+    -fx-pref-width: 160px;
+    -fx-pref-height: 40px;
+    -fx-background-radius: 6px;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+}
+
+.create-button:hover {
+    -fx-background-color: #005aba;
+}
+
+/* ====== Team Name TextField ====== */
+.team-names {
+    -fx-background-color: #f1f1f1;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px;
+    -fx-font-size: 16px;
+    -fx-pref-height: 40px; /* compact */
+}
+
+.team-names:focused {
+    -fx-border-color: #3c8dbc;
+    -fx-background-color: #ffffff;
+}
+
+/* ====== Team Lead ComboBox ====== */
+.team-lead {
+    -fx-background-color: #f1f1f1;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 2px;
+    -fx-font-size: 13px;
+    -fx-pref-height: 24px;
+}
+
+.team-lead:focused {
+    -fx-border-color: #3c8dbc;
+    -fx-background-color: #ffffff;
+}
+
+.team-lead .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.team-lead .list-cell {
+    -fx-padding: 5px;
+    -fx-font-size: 12px;
+}
+
+ .team-lead .arrow-button {
+     -fx-background-color: transparent;
+ }
+
+ .team-lead .list-cell {
+     -fx-padding: 12px;
+     -fx-font-size: 15px;
+ }
+.member-scroll {
+    -fx-border-color: #ccc;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-color: #fafafa;
+    -fx-padding: 5;
+}
+
+.member-scroll .viewport {
+    -fx-background-color: transparent;
+}
+
+.member-scroll .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.member-scroll .scroll-bar:vertical .thumb {
+    -fx-background-color: #bbb;
+    -fx-background-radius: 5px;
+}
+
+.member-scroll .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #999;
+}
+
+.member-scroll .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #999;
+}

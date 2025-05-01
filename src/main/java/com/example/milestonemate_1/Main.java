@@ -18,7 +18,6 @@ public class Main extends Application {
         loginScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/style.css")).toExternalForm());
         primaryStage.show();
     }
-
     public static void main(String[] args) {
         launch(args);
     }
