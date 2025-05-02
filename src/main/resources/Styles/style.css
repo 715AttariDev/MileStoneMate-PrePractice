@@ -242,7 +242,7 @@
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-padding: 8px 12px;
-    -fx-pref-width: 160px;
+    -fx-pref-width: 180px;
     -fx-pref-height: 40px;
     -fx-background-radius: 6px;
     -fx-cursor: hand;
@@ -259,7 +259,7 @@
     -fx-border-color: #ccc;
     -fx-border-radius: 5px;
     -fx-padding: 8px;
-    -fx-font-size: 16px;
+    -fx-font-size: 14px;
     -fx-pref-height: 40px; /* compact */
 }
 
@@ -289,7 +289,7 @@
 
 .team-lead .list-cell {
     -fx-padding: 5px;
-    -fx-font-size: 12px;
+    -fx-font-size: 11px;
 }
 
  .team-lead .arrow-button {
@@ -298,7 +298,7 @@
 
  .team-lead .list-cell {
      -fx-padding: 12px;
-     -fx-font-size: 15px;
+     -fx-font-size: 11px;
  }
 .member-scroll {
     -fx-border-color: #ccc;
@@ -321,6 +321,16 @@
     -fx-background-radius: 5px;
 }
 
+}
+.team-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #333;
+    -fx-font-weight: bold;
+}
+
+.success-message {
+    -fx-text-fill: green;
+}
 .member-scroll .scroll-bar:vertical .thumb:hover {
     -fx-background-color: #999;
 }
@@ -335,6 +345,29 @@
     /* NO max-width / max-height unless you want it to stop growing after a certain point */
     /* Pref size is a hint, but it should be flexible */
 }
+.team-description {
+    -fx-padding: 3px;
+    -fx-border-color: #d1d1d1;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-background-color: #ffffff;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-wrap-text: true;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.03), 1, 0.2, 0, 1);
+}
+
+.team-description:focused {
+    -fx-border-color: #4a90e2;
+    -fx-background-color: #ffffff;
+}
 
 
-
+.due-date {
+    -fx-pref-height: 40px;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-font-size: 14px;
+}

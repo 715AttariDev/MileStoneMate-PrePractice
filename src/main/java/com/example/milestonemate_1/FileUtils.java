@@ -1,15 +1,19 @@
 package com.example.milestonemate_1;
 
+import com.example.milestonemate_1.models.Project;
 import com.example.milestonemate_1.models.Team;
 
 import java.io.*;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FileUtils {
     private static final String USER_FILE = "users.txt";
     private static final String TEAMS_FILE = "teams.txt";
+    private static final String PROJECTS_FILE = "projects.txt";
 
+    // Save a user
     public static void saveUser(User user) {
         if (user == null) {
             throw new IllegalArgumentException("User object cannot be null");
@@ -27,6 +31,7 @@ public class FileUtils {
         }
     }
 
+    // Validate user
     public static boolean validateUser(String username, String password) {
         try (BufferedReader reader = new BufferedReader(new FileReader(USER_FILE))) {
             String line;
@@ -43,6 +48,7 @@ public class FileUtils {
         return false;
     }
 
+    // Get a user by username
     public static User getUser(String username) {
         try (BufferedReader reader = new BufferedReader(new FileReader(USER_FILE))) {
             String line;
@@ -59,6 +65,7 @@ public class FileUtils {
         return null;
     }
 
+    // Get all users
     public static List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(USER_FILE))) {
@@ -78,6 +85,7 @@ public class FileUtils {
         return users;
     }
 
+    // Check if team name exists
     public static boolean isTeamNameExists(String teamName) {
         File file = new File(TEAMS_FILE);
         if (!file.exists()) return false;
@@ -102,6 +110,7 @@ public class FileUtils {
         return false;
     }
 
+    // Save a team
     public static boolean saveTeam(Team team) {
         if (team == null) {
             throw new IllegalArgumentException("Team object cannot be null");
@@ -120,4 +129,106 @@ public class FileUtils {
             return false;
         }
     }
+
+    // Save a project
+    public static boolean saveProject(Project project) {
+        if (project == null) {
+            throw new IllegalArgumentException("Project object cannot be null");
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PROJECTS_FILE, true))) {
+            if (project.getProjectName().isEmpty() || project.getDescription().isEmpty() || project.getTeamName().isEmpty() || project.getDueDate() == null) {
+                throw new IllegalArgumentException("Project data cannot be empty");
+            }
+            writer.write(project.getProjectName() + "," +
+                    project.getDescription() + "," +
+                    project.getTeamName() + "," +
+                    project.getDueDate());
+            writer.newLine();
+            return true;
+        } catch (IOException e) {
+            System.err.println("Error saving project: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Get all projects
+    public static List<Project> getAllProjects() {
+        List<Project> projects = new ArrayList<>();
+        File file = new File(PROJECTS_FILE);
+        if (!file.exists()) return projects;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] projectData = line.split(",");
+                if (projectData.length == 4) {
+                    try {
+                        Project project = new Project(
+                                projectData[0],
+                                projectData[1],
+                                projectData[2],
+                                LocalDate.parse(projectData[3])
+                        );
+                        projects.add(project);
+                    } catch (Exception e) {
+                        System.err.println("Skipping invalid project entry: " + line);
+                    }
+                } else {
+                    System.err.println("Skipping invalid project entry: " + line);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading projects: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return projects;
+    }
+
+    // Check if a project name already exists
+    public static boolean isProjectNameExists(String projectName) {
+        File file = new File(PROJECTS_FILE);
+        if (!file.exists()) return false;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().isEmpty()) continue; // Skip empty lines
+                String[] projectData = line.split(",");
+                if (projectData.length >= 1 && projectData[0].equalsIgnoreCase(projectName)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error checking project name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Get all teams from the file
+    public static List<Team> getAllTeams() {
+        List<Team> teams = new ArrayList<>();
+        File file = new File(TEAMS_FILE);
+        if (!file.exists()) return teams;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().isEmpty()) continue; // Skip empty lines
+                try {
+                    Team team = Team.fromString(line);
+                    teams.add(team);
+                } catch (IllegalArgumentException e) {
+                    System.err.println("Skipping invalid team entry: " + line);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading teams: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return teams;
+    }
+
 }

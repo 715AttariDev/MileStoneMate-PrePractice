@@ -20,20 +20,20 @@ public class CreateTeamView implements ViewProvider {
         AnchorPane pane = new AnchorPane();
         pane.getStyleClass().add("main-pane");
 
-        // Adjust the width to accommodate sidebar (215px) and navbar (85px)
-//        pane.setPrefWidth(1080);
-//        pane.setPrefHeight(400);
-//        pane.setMaxWidth(1080);
-//        pane.setMaxHeight(400);
-
         // ====== UI Components ======
-        Label titleLabel = new Label("Create Team");
+        Label titleLabel = new Label("Create New Team");
         titleLabel.getStyleClass().add("form-title");
+
+        Label teamNameLabel = new Label("Team Name:");
+        teamNameLabel.getStyleClass().add("team-label");
 
         TextField teamNameField = new TextField();
         teamNameField.setPromptText("Enter Team Name");
-        teamNameField.setPrefWidth(300);  // You can adjust this if needed
+        teamNameField.setPrefWidth(300);
         teamNameField.getStyleClass().add("team-names");
+
+        Label descriptionLabel = new Label("Team Description:");
+        descriptionLabel.getStyleClass().add("team-label");
 
         TextArea descriptionField = new TextArea();
         descriptionField.setPromptText("Enter Team Description");
@@ -41,11 +41,14 @@ public class CreateTeamView implements ViewProvider {
         descriptionField.setPrefRowCount(1);
         descriptionField.getStyleClass().add("team-description");
 
+        Label teamLeadLabel = new Label("Team Lead:");
+        teamLeadLabel.getStyleClass().add("team-label");
+
         ComboBox<String> teamLeadCombo = new ComboBox<>();
         teamLeadCombo.setPromptText("Select Team Lead");
         teamLeadCombo.getStyleClass().add("team-lead");
 
-        Label membersLabel = new Label("Select Members:");
+        Label membersLabel = new Label("Select Team Members:");
         membersLabel.getStyleClass().add("section-title");
 
         VBox memberListContainer = new VBox(5);
@@ -62,13 +65,13 @@ public class CreateTeamView implements ViewProvider {
         Label errorLabel = new Label();
         errorLabel.setStyle("-fx-text-fill: red;");
 
-        Label createdDateLabel = new Label(); // Will display the created date
+        Label createdDateLabel = new Label();
         createdDateLabel.setStyle("-fx-text-fill: green;");
 
         // ====== Load Users ======
         populateUserLists(teamLeadCombo, memberListContainer);
 
-        // ====== Create Button Only ======
+        // ====== Create Button ======
         Button createBtn = new Button("Create Team");
         createBtn.getStyleClass().add("create-button");
 
@@ -82,11 +85,11 @@ public class CreateTeamView implements ViewProvider {
             );
         });
 
-        VBox layout = new VBox(15,
+        VBox layout = new VBox(5,
                 titleLabel,
-                teamNameField,
-                descriptionField,
-                teamLeadCombo,
+                teamNameLabel, teamNameField,
+                descriptionLabel, descriptionField,
+                teamLeadLabel, teamLeadCombo,
                 membersLabel,
                 scrollPane,
                 errorLabel,
@@ -101,7 +104,6 @@ public class CreateTeamView implements ViewProvider {
         AnchorPane.setLeftAnchor(layout, 20.0);
 
         pane.getChildren().add(layout);
-
 
         return pane;
     }
