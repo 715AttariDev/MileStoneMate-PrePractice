@@ -90,7 +90,7 @@ public class LoginView {
 
     private void navigateToDashboard(String role, Stage stage) {
         AnchorPane dashboardView = Layout.getView(role);
-        Scene dashboardScene = new Scene(dashboardView, 1280, 720);
+        Scene dashboardScene = new Scene(dashboardView, 1280, 760);
         dashboardScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/style.css")).toExternalForm());
         stage.setScene(dashboardScene);
     }

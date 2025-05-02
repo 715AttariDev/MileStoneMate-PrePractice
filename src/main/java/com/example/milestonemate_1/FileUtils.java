@@ -11,6 +11,10 @@ public class FileUtils {
     private static final String TEAMS_FILE = "teams.txt";
 
     public static void saveUser(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("User object cannot be null");
+        }
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(USER_FILE, true))) {
             if (user.getUsername().isEmpty() || user.getPassword().isEmpty() || user.getRole().isEmpty()) {
                 throw new IllegalArgumentException("User data cannot be empty");
@@ -18,6 +22,7 @@ public class FileUtils {
             writer.write(user.getUsername() + "," + user.getPassword() + "," + user.getRole());
             writer.newLine();
         } catch (IOException e) {
+            System.err.println("Error saving user: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -32,6 +37,7 @@ public class FileUtils {
                 }
             }
         } catch (IOException e) {
+            System.err.println("Error validating user: " + e.getMessage());
             e.printStackTrace();
         }
         return false;
@@ -47,6 +53,7 @@ public class FileUtils {
                 }
             }
         } catch (IOException e) {
+            System.err.println("Error fetching user: " + e.getMessage());
             e.printStackTrace();
         }
         return null;
@@ -60,9 +67,12 @@ public class FileUtils {
                 String[] userData = line.split(",");
                 if (userData.length == 3) {
                     users.add(new User(userData[0], userData[1], userData[2]));
+                } else {
+                    System.err.println("Skipping invalid user entry: " + line);
                 }
             }
         } catch (IOException e) {
+            System.err.println("Error reading users: " + e.getMessage());
             e.printStackTrace();
         }
         return users;
@@ -76,18 +86,27 @@ public class FileUtils {
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty()) continue; // Skip empty lines
-                Team team = Team.fromString(line);
-                if (team.getTeamName().equalsIgnoreCase(teamName)) {
-                    return true;
+                try {
+                    Team team = Team.fromString(line);
+                    if (team.getTeamName().equalsIgnoreCase(teamName)) {
+                        return true;
+                    }
+                } catch (IllegalArgumentException e) {
+                    System.err.println("Skipping invalid team entry: " + line);
                 }
             }
         } catch (IOException e) {
+            System.err.println("Error checking team name: " + e.getMessage());
             e.printStackTrace();
         }
         return false;
     }
 
     public static boolean saveTeam(Team team) {
+        if (team == null) {
+            throw new IllegalArgumentException("Team object cannot be null");
+        }
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(TEAMS_FILE, true))) {
             if (team.getTeamName().isEmpty() || team.getTeamLead().isEmpty() || team.getTeamMembers().isEmpty()) {
                 throw new IllegalArgumentException("Team data cannot be empty");
@@ -96,6 +115,7 @@ public class FileUtils {
             writer.newLine();
             return true;
         } catch (IOException e) {
+            System.err.println("Error saving team: " + e.getMessage());
             e.printStackTrace();
             return false;
         }

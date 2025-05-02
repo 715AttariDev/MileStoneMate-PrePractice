@@ -1,31 +1,14 @@
+Faisal,12345,Manager
+Bilal,bilal,Team Lead
+Ahmed,ahmed,Team Lead
 Faiz,12345,Manager
-Jameel,12345,Manager
-Bilal,12345,Team Lead
-Haider,haider,Team Lead
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-Ali,Ali,Team Member
-
-
-
+Ibrahim,12345,Team Member
+Ibrahim,12345,Team Member
+Ibrahim,12345,Team Member
+Ibrahim,12345,Team Member
+Ibrahim,12345,Team Member
+Ibrahim,12345,Team Member
+Ibrahim,12345,Team Member
+Ibrahim,12345,Team Member
+Ibrahim,12345,Team Member
+Ibrahim,12345,Team Member

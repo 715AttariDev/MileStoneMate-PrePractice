@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,14 +20,26 @@ public class CreateTeamView implements ViewProvider {
         AnchorPane pane = new AnchorPane();
         pane.getStyleClass().add("main-pane");
 
+        // Adjust the width to accommodate sidebar (215px) and navbar (85px)
+//        pane.setPrefWidth(1080);
+//        pane.setPrefHeight(400);
+//        pane.setMaxWidth(1080);
+//        pane.setMaxHeight(400);
+
         // ====== UI Components ======
         Label titleLabel = new Label("Create Team");
         titleLabel.getStyleClass().add("form-title");
 
         TextField teamNameField = new TextField();
         teamNameField.setPromptText("Enter Team Name");
-        teamNameField.setPrefWidth(300);
+        teamNameField.setPrefWidth(300);  // You can adjust this if needed
         teamNameField.getStyleClass().add("team-names");
+
+        TextArea descriptionField = new TextArea();
+        descriptionField.setPromptText("Enter Team Description");
+        descriptionField.setPrefWidth(300);
+        descriptionField.setPrefRowCount(1);
+        descriptionField.getStyleClass().add("team-description");
 
         ComboBox<String> teamLeadCombo = new ComboBox<>();
         teamLeadCombo.setPromptText("Select Team Lead");
@@ -40,26 +53,55 @@ public class CreateTeamView implements ViewProvider {
         memberListContainer.getStyleClass().add("member-list-container");
 
         ScrollPane scrollPane = new ScrollPane(memberListContainer);
-        scrollPane.setFitToWidth(true); // Fill horizontally
-        scrollPane.setPrefHeight(200); //
+        scrollPane.setFitToWidth(true);
+        scrollPane.setPrefHeight(200);
         scrollPane.setMaxHeight(200);
         scrollPane.getStyleClass().add("member-scroll");
 
-// ====== Load Users ======
+        // ====== Inline Error Labels ======
+        Label errorLabel = new Label();
+        errorLabel.setStyle("-fx-text-fill: red;");
+
+        Label createdDateLabel = new Label(); // Will display the created date
+        createdDateLabel.setStyle("-fx-text-fill: green;");
+
+        // ====== Load Users ======
         populateUserLists(teamLeadCombo, memberListContainer);
-        // ====== Create Button ======
+
+        // ====== Create Button Only ======
         Button createBtn = new Button("Create Team");
         createBtn.getStyleClass().add("create-button");
-        createBtn.setOnAction(e -> handleCreateTeam(
-                teamNameField, teamLeadCombo, memberListContainer
-        ));
-        VBox layout = new VBox(15, titleLabel, teamNameField, teamLeadCombo, membersLabel, scrollPane, createBtn);
+
+        // ====== Button Action ======
+        createBtn.setOnAction(e -> {
+            errorLabel.setText("");
+            createdDateLabel.setText("");
+            handleCreateTeam(
+                    teamNameField, descriptionField, teamLeadCombo,
+                    memberListContainer, errorLabel, createdDateLabel
+            );
+        });
+
+        VBox layout = new VBox(15,
+                titleLabel,
+                teamNameField,
+                descriptionField,
+                teamLeadCombo,
+                membersLabel,
+                scrollPane,
+                errorLabel,
+                createBtn,
+                createdDateLabel
+        );
+
         layout.setPadding(new Insets(20));
         layout.setAlignment(Pos.TOP_LEFT);
-
-        pane.getChildren().add(layout);
+        layout.setFillWidth(true);
         AnchorPane.setTopAnchor(layout, 20.0);
         AnchorPane.setLeftAnchor(layout, 20.0);
+
+        pane.getChildren().add(layout);
+
 
         return pane;
     }
@@ -81,8 +123,16 @@ public class CreateTeamView implements ViewProvider {
         }
     }
 
-    private void handleCreateTeam(TextField teamNameField, ComboBox<String> teamLeadCombo, VBox memberListContainer) {
+    private void handleCreateTeam(
+            TextField teamNameField,
+            TextArea descriptionField,
+            ComboBox<String> teamLeadCombo,
+            VBox memberListContainer,
+            Label errorLabel,
+            Label createdDateLabel
+    ) {
         String teamName = teamNameField.getText().trim();
+        String description = descriptionField.getText().trim();
         String selectedLead = teamLeadCombo.getValue();
         List<String> selectedMembers = new ArrayList<>();
 
@@ -92,33 +142,51 @@ public class CreateTeamView implements ViewProvider {
             }
         }
 
-        if (teamName.isEmpty() || selectedLead == null || selectedLead.isEmpty() || selectedMembers.isEmpty()) {
-            new Alert(Alert.AlertType.ERROR, "Please fill all fields and select members!").show();
+        if (teamName.isEmpty()) {
+            errorLabel.setText("Team name is required!");
+            return;
+        }
+        if (description.isEmpty()) {
+            errorLabel.setText("Team description is required!");
+            return;
+        }
+        if (selectedLead == null || selectedLead.isEmpty()) {
+            errorLabel.setText("Please select a team lead!");
+            return;
+        }
+        if (selectedMembers.isEmpty()) {
+            errorLabel.setText("Please select at least one team member!");
             return;
         }
 
         // Check duplicate team name
         if (FileUtils.isTeamNameExists(teamName)) {
-            new Alert(Alert.AlertType.ERROR, "Team name already exists! Please choose another.").show();
+            errorLabel.setText("Team name already exists! Please choose another.");
             return;
         }
 
         // Save the team
-        Team newTeam = new Team(teamName, selectedLead, selectedMembers);
+        LocalDate createdDate = LocalDate.now();
+        Team newTeam = new Team(teamName, selectedLead, selectedMembers, description);
+
         boolean saved = FileUtils.saveTeam(newTeam);
         if (saved) {
-            new Alert(Alert.AlertType.INFORMATION, "Team created successfully!").show();
-            teamNameField.clear();
-            teamLeadCombo.getSelectionModel().clearSelection();
+            errorLabel.setStyle("-fx-text-fill: green;");
+            errorLabel.setText("Team created successfully!");
+            createdDateLabel.setText("Created on: " + createdDate);
 
-            // Clear the CheckBoxes
+            // Reset fields
+            teamNameField.clear();
+            descriptionField.clear();
+            teamLeadCombo.getSelectionModel().clearSelection();
             for (Node node : memberListContainer.getChildren()) {
                 if (node instanceof CheckBox checkBox) {
                     checkBox.setSelected(false);
                 }
             }
         } else {
-            new Alert(Alert.AlertType.ERROR, "Failed to save team.").show();
+            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText("Failed to save team.");
         }
     }
 }

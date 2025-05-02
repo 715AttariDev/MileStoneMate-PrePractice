@@ -177,9 +177,14 @@
 }
 /* Main Pane Style */
 .main-pane {
-    -fx-background-color: #ffffff;
-    -fx-background-radius: 15;
+    -fx-background-color: white;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+
 }
+
+
+
 
 //* ====== Member List Container ====== */
  .member-list-container {
@@ -323,3 +328,13 @@
 .member-scroll .scroll-bar:vertical .thumb:hover {
     -fx-background-color: #999;
 }
+.content-background {
+    -fx-background-color: transparent; /* or any color you like */
+    -fx-min-width: 600px;
+    -fx-min-height: 400px;
+    /* NO max-width / max-height unless you want it to stop growing after a certain point */
+    /* Pref size is a hint, but it should be flexible */
+}
+
+
+
