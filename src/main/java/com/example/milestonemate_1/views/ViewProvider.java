@@ -1,7 +1,7 @@
 package com.example.milestonemate_1.views;
 
-import javafx.scene.layout.Pane;
+import javafx.scene.Parent;
 
 public interface ViewProvider {
-    Pane getView();
+    Parent getView();
 }

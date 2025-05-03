@@ -5,7 +5,6 @@ import com.example.milestonemate_1.models.Project;
 import com.example.milestonemate_1.models.Team;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -21,13 +20,19 @@ public class CreateProjectView implements ViewProvider {
         pane.getStyleClass().add("main-pane");
 
         // ====== UI Components ======
-        Label titleLabel = new Label("Create Project");
+        Label titleLabel = new Label("Create New Project");
         titleLabel.getStyleClass().add("form-title");
+
+        Label projectNameLabel = new Label("Project Name");
+        projectNameLabel.getStyleClass().add("team-label");
 
         TextField projectNameField = new TextField();
         projectNameField.setPromptText("Enter Project Name");
         projectNameField.setPrefWidth(300);
         projectNameField.getStyleClass().add("team-names");
+
+        Label descriptionLabel = new Label("Project Description");
+        descriptionLabel.getStyleClass().add("team-label");
 
         TextArea descriptionField = new TextArea();
         descriptionField.setPromptText("Enter Project Description");
@@ -35,9 +40,15 @@ public class CreateProjectView implements ViewProvider {
         descriptionField.setPrefRowCount(1);
         descriptionField.getStyleClass().add("team-description");
 
+        Label teamLabel = new Label("Select Team");
+        teamLabel.getStyleClass().add("team-label");
+
         ComboBox<String> teamComboBox = new ComboBox<>();
         teamComboBox.setPromptText("Select Team");
         teamComboBox.getStyleClass().add("team-lead");
+
+        Label dueDateLabel = new Label("Due Date");
+        dueDateLabel.getStyleClass().add("team-label");
 
         DatePicker dueDatePicker = new DatePicker();
         dueDatePicker.setPromptText("Select Due Date");
@@ -66,10 +77,10 @@ public class CreateProjectView implements ViewProvider {
 
         VBox layout = new VBox(15,
                 titleLabel,
-                projectNameField,
-                descriptionField,
-                teamComboBox,
-                dueDatePicker,
+                projectNameLabel, projectNameField,
+                descriptionLabel, descriptionField,
+                teamLabel, teamComboBox,
+                dueDateLabel, dueDatePicker,
                 errorLabel,
                 createBtn
         );

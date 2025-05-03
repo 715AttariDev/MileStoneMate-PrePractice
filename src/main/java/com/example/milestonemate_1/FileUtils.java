@@ -1,6 +1,7 @@
 package com.example.milestonemate_1;
 
 import com.example.milestonemate_1.models.Project;
+import com.example.milestonemate_1.models.Task;
 import com.example.milestonemate_1.models.Team;
 
 import java.io.*;
@@ -12,6 +13,7 @@ public class FileUtils {
     private static final String USER_FILE = "users.txt";
     private static final String TEAMS_FILE = "teams.txt";
     private static final String PROJECTS_FILE = "projects.txt";
+    private static final String TASKS_FILE = "tasks.txt";
 
     // Save a user
     public static void saveUser(User user) {
@@ -230,5 +232,53 @@ public class FileUtils {
         }
         return teams;
     }
+
+
+    public static boolean saveTask(Task task) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(TASKS_FILE, true))) {
+            writer.write(task.toFileString());
+            writer.newLine();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static List<String> getAllProjectNames() {
+        List<String> projectNames = new ArrayList<>();
+        File file = new File("projects.txt");  // should point to projects.txt, not teams.txt
+        if (!file.exists()) return projectNames;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length > 0) projectNames.add(parts[0]);  // project name
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return projectNames;
+    }
+
+
+    public static List<String> getAllUsernames() {
+        List<String> usernames = new ArrayList<>();
+        File file = new File("users.txt");
+        if (!file.exists()) return usernames;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length > 0) usernames.add(parts[0]);  // username
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return usernames;
+    }
+
 
 }
