@@ -9,7 +9,9 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -46,7 +48,7 @@ public class CreateTaskView implements ViewProvider {
 
         TextArea descArea = new TextArea();
         descArea.setPromptText("Enter task description");
-        descArea.setPrefRowCount(4);
+        descArea.setPrefRowCount(2);
         descArea.getStyleClass().add("team-description");
 
         Label deadlineLabel = new Label("Deadline:");
@@ -62,12 +64,40 @@ public class CreateTaskView implements ViewProvider {
         assignComboBox.setPromptText("Select team member");
         assignComboBox.getStyleClass().add("team-lead");
 
-        List<User> users = FileUtils.getAllUsers();
-        for (User user : users) {
-            if ("Team Member".equals(user.getRole())) {
-                assignComboBox.getItems().add(user.getUsername());
+        assignComboBox.setDisable(true);
+
+        projectComboBox.setOnAction(event -> {
+            String selectedProject = projectComboBox.getValue();
+            if (selectedProject != null) {
+                assignComboBox.setDisable(false);
+                assignComboBox.getItems().clear();
+                List<String> teamMembers = FileUtils.getTeamMembersForProject(selectedProject);
+                assignComboBox.getItems().addAll(teamMembers);
             }
-        }
+        });
+
+
+        // ===== File Attachment =====
+        Label attachLabel = new Label("Attach File (optional):");
+        attachLabel.getStyleClass().add("team-label");
+
+        Button attachButton = new Button("Choose File");
+        attachButton.getStyleClass().add("create-button");
+
+        Label fileNameLabel = new Label("No file selected");
+        fileNameLabel.setStyle("-fx-font-style: italic;");
+
+        final File[] selectedFile = {null};
+
+        attachButton.setOnAction(e -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Select a File to Attach");
+            File file = fileChooser.showOpenDialog(pane.getScene().getWindow());
+            if (file != null) {
+                selectedFile[0] = file;
+                fileNameLabel.setText(file.getName());
+            }
+        });
 
         // ====== Error Label ======
         Label errorLabel = new Label();
@@ -90,7 +120,19 @@ public class CreateTaskView implements ViewProvider {
                 return;
             }
 
-            Task task = new Task(selectedProject, taskName, description, deadline, assignee, "Pending");
+            String filePath = null;
+            if (selectedFile[0] != null) {
+                // save the file to attached_files folder
+                filePath = FileUtils.copyFileToTaskFolder(selectedFile[0], taskName);
+                if (filePath == null) {
+                    errorLabel.setStyle("-fx-text-fill: red;");
+                    errorLabel.setText("Failed to attach file.");
+                    return;
+                }
+            }
+
+            // updated Task with filePath
+            Task task = new Task(selectedProject, taskName, description, deadline, assignee, "Pending", filePath);
             boolean success = FileUtils.saveTask(task);
 
             if (success) {
@@ -103,6 +145,8 @@ public class CreateTaskView implements ViewProvider {
                 descArea.clear();
                 deadlinePicker.setValue(null);
                 assignComboBox.getSelectionModel().clearSelection();
+                fileNameLabel.setText("No file selected");
+                selectedFile[0] = null;
             } else {
                 errorLabel.setStyle("-fx-text-fill: red;");
                 errorLabel.setText("Failed to create task. Please try again.");
@@ -117,6 +161,7 @@ public class CreateTaskView implements ViewProvider {
                 descLabel, descArea,
                 deadlineLabel, deadlinePicker,
                 assignLabel, assignComboBox,
+                attachLabel, attachButton, fileNameLabel,
                 errorLabel,
                 submitButton
         );

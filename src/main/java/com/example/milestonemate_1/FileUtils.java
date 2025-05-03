@@ -7,6 +7,7 @@ import com.example.milestonemate_1.models.Team;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FileUtils {
@@ -73,13 +74,24 @@ public class FileUtils {
         try (BufferedReader reader = new BufferedReader(new FileReader(USER_FILE))) {
             String line;
             while ((line = reader.readLine()) != null) {
+                line = line.trim(); // Remove any leading/trailing spaces
+
+                // Skip empty lines
+                if (line.isEmpty()) {
+                    continue;
+                }
                 String[] userData = line.split(",");
+                // Trim each part to avoid spaces messing things up
+                for (int i = 0; i < userData.length; i++) {
+                    userData[i] = userData[i].trim();
+                }
                 if (userData.length == 3) {
                     users.add(new User(userData[0], userData[1], userData[2]));
                 } else {
                     System.err.println("Skipping invalid user entry: " + line);
                 }
             }
+
         } catch (IOException e) {
             System.err.println("Error reading users: " + e.getMessage());
             e.printStackTrace();
@@ -279,6 +291,102 @@ public class FileUtils {
         }
         return usernames;
     }
+
+    public static List<Task> getAllTasks() {
+        List<Task> tasks = new ArrayList<>();
+        File file = new File(TASKS_FILE);
+        if (!file.exists()) return tasks;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().isEmpty()) continue; // Skip empty lines
+                try {
+                    Task task = Task.fromFileString(line);
+                    tasks.add(task);
+                } catch (IllegalArgumentException e) {
+                    System.err.println("Skipping invalid task entry: " + line);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading tasks: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return tasks;
+    }
+
+    public static String copyFileToTaskFolder(File file, String taskName) {
+        if(file == null || !file.exists()){
+            throw new IllegalArgumentException("File does not exist");
+        }
+        if (taskName == null || taskName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Task name cannot be empty");
+        }
+
+        // Define the folder where we want to copy the file
+        File taskFolder = new File("task_files", taskName);
+        if (!taskFolder.exists()) {
+            boolean created = taskFolder.mkdirs(); // create directories if not exist
+            if (!created) {
+                throw new RuntimeException("Failed to create task folder: " + taskFolder.getAbsolutePath());
+            }
+        }
+
+        // Create a destination file in the task folder
+        File destFile = new File(taskFolder, file.getName());
+
+        try (InputStream in = new FileInputStream(file);
+             OutputStream out = new FileOutputStream(destFile)) {
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = in.read(buffer)) > 0) {
+                out.write(buffer, 0, length);
+            }
+        } catch (IOException e) {
+            System.err.println("Error copying file: " + e.getMessage());
+            e.printStackTrace();
+            return null; // or throw exception if you want
+        }
+
+        return destFile.getAbsolutePath(); // returning the new file path
+    }
+    public static List<String> getTeamMembersForProject(String projectName) {
+        List<String> members = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader("projects.txt"))) {
+            String projectLine;
+            String teamName = null;
+
+            // First: Find the team name for the given project
+            while ((projectLine = br.readLine()) != null) {
+                String[] parts = projectLine.split(",");
+                if (parts.length >= 3 && parts[0].equalsIgnoreCase(projectName)) {
+                    teamName = parts[2].trim();
+                    break;
+                }
+            }
+
+            if (teamName != null) {
+                // Now: Find the team and its members from the teams.txt file
+                try (BufferedReader teamReader = new BufferedReader(new FileReader("teams.txt"))) {
+                    String teamLine;
+                    while ((teamLine = teamReader.readLine()) != null) {
+                        if (teamLine.trim().isEmpty()) continue;
+                        Team team = Team.fromString(teamLine);
+                        if (team.getTeamName().equalsIgnoreCase(teamName)) {
+                            members.addAll(team.getTeamMembers());
+                            break;
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error fetching team members for project: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return members;
+    }
+
 
 
 }

@@ -1,2 +1,2 @@
-My project,nothing,Faisal,2025-05-12
-file handling,nil,Naam hai,2025-05-20
+CS Final Year Project,Nil,Communications Skills,2025-05-23
+OOP,OOP,Communications Skills,2025-05-15

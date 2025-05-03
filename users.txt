@@ -1,14 +1,12 @@
 Faisal,12345,Manager
-Bilal,bilal,Team Lead
-Ahmed,ahmed,Team Lead
-Faiz,12345,Manager
+Bilal,12345,Team Lead
+Abdul Basit,12345,Team Lead
 Ibrahim,12345,Team Member
-Ibrahim,12345,Team Member
-Ibrahim,12345,Team Member
-Ibrahim,12345,Team Member
-Ibrahim,12345,Team Member
-Ibrahim,12345,Team Member
-Ibrahim,12345,Team Member
-Ibrahim,12345,Team Member
-Ibrahim,12345,Team Member
-Ibrahim,12345,Team Member
+Abdullah Faiz,12345,Team Member
+Abdullah Arshad,12345,Team Member
+Usman Nisaar,12345,Team Member
+Soban,12345,Team Member
+Sami Bin Awais,12345,Team Member
+
+
+
