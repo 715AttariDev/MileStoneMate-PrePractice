@@ -5,8 +5,7 @@ import com.example.milestonemate_1.models.Task;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+import javafx.scene.text.*;
 import javafx.stage.FileChooser;
 
 import java.awt.Desktop;
@@ -14,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,19 +26,15 @@ public class MyTasksView implements ViewProvider {
 
     public AnchorPane getView() {
         AnchorPane pane = new AnchorPane();
-        pane.getStyleClass().add("MyTaskPane");
+        pane.getStyleClass().add("root");
 
-
-
-        // FlowPane for task cards
         FlowPane tasksContainer = new FlowPane();
         tasksContainer.setPadding(new Insets(20));
         tasksContainer.setHgap(20);
         tasksContainer.setVgap(20);
-        tasksContainer.setPrefWrapLength(900); // Adjust width as needed
+        tasksContainer.setPrefWrapLength(900);
         tasksContainer.getStyleClass().add("tasks-container");
 
-        // Load and filter tasks
         List<Task> myTasks = FileUtils.getAllTasks().stream()
                 .filter(task -> task.getAssignedTo().equalsIgnoreCase(loggedInUser))
                 .collect(Collectors.toList());
@@ -54,39 +50,34 @@ public class MyTasksView implements ViewProvider {
             }
         }
 
-        // Anchor FlowPane directly
-        AnchorPane.setTopAnchor(tasksContainer, 20.0);
+        AnchorPane.setTopAnchor(tasksContainer, 0.0);
         AnchorPane.setLeftAnchor(tasksContainer, 20.0);
-        AnchorPane.setRightAnchor(tasksContainer, 20.0);
-        AnchorPane.setBottomAnchor(tasksContainer, 20.0);
+        AnchorPane.setRightAnchor(tasksContainer, 0.0);
+        AnchorPane.setBottomAnchor(tasksContainer, 0.0);
 
         pane.getChildren().addAll(tasksContainer);
         return pane;
     }
 
     private VBox createTaskCard(Task task) {
-        VBox card = new VBox(5);
+        VBox card = new VBox();
         card.setPadding(new Insets(15));
         card.getStyleClass().add("task-card");
         card.setMinWidth(250);
         card.setMaxWidth(250);
+        card.setPrefHeight(280); // Or however tall you want the card to be
 
-        Label project = new Label("Project: " + task.getProject());
-        Label title = new Label("Task: " + task.getTitle());
-        Label description = new Label("Description: " + task.getDescription());
-        Label deadline = new Label("Due: " + task.getDeadline());
-        Label status = new Label("Status: " + task.getStatus());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d, yyyy");
 
-        List<Label> labels = List.of(project, title, description, deadline, status);
-        for (Label label : labels) {
-            label.getStyleClass().add("task-label");
-        }
+        TextFlow project = createStyledText("Project : ", task.getProject());
+        TextFlow title = createStyledText("Task : ", task.getTitle());
+        TextFlow description = createStyledText("Description : ", task.getDescription());
+        TextFlow deadline = createStyledText("Due : ", task.getDeadline().format(formatter));
+        TextFlow status = createStyledText("Status : ", task.getStatus());
 
-        // File hyperlinks (horizontal layout)
-        HBox fileLinksBox = new HBox(10);
-        fileLinksBox.setPadding(new Insets(10, 0, 0, 0));
-        fileLinksBox.setVisible(false);
+        VBox contentBox = new VBox(5, project, title, description, deadline, status);
 
+        // Add hyperlinks if file is attached
         if (task.getAttachedFilePath() != null && !task.getAttachedFilePath().isBlank()) {
             Hyperlink openFileLink = new Hyperlink("Open File");
             openFileLink.setOnAction(e -> openFile(task));
@@ -94,9 +85,12 @@ public class MyTasksView implements ViewProvider {
             Hyperlink downloadFileLink = new Hyperlink("Download File");
             downloadFileLink.setOnAction(e -> downloadFile(task));
 
-            fileLinksBox.getChildren().addAll(openFileLink, downloadFileLink);
-            fileLinksBox.setVisible(true);
+            HBox fileLinksBox = new HBox(10, openFileLink, downloadFileLink);
+            fileLinksBox.setPadding(new Insets(2, 0, 0, 0));
+            contentBox.getChildren().add(fileLinksBox);
         }
+
+        VBox.setVgrow(contentBox, Priority.ALWAYS); // Take up available space
 
         Button completeBtn = new Button();
         completeBtn.getStyleClass().add("complete-btn");
@@ -109,7 +103,7 @@ public class MyTasksView implements ViewProvider {
             completeBtn.setOnAction(e -> {
                 boolean updated = FileUtils.updateTaskStatus(task.getId(), "Completed");
                 if (updated) {
-                    status.setText("Status: Completed");
+                    status.getChildren().set(1, new Text("Completed"));
                     completeBtn.setText("✅ Completed");
                     completeBtn.setDisable(true);
                     showAlert(Alert.AlertType.INFORMATION, "Task marked as completed!");
@@ -119,10 +113,23 @@ public class MyTasksView implements ViewProvider {
             });
         }
 
-        card.getChildren().addAll(project, title, description, deadline, status, fileLinksBox, completeBtn);
+        Region spacer = new Region();
+        VBox.setVgrow(spacer, Priority.ALWAYS); // Push button to bottom
+
+        card.getChildren().addAll(contentBox, spacer, completeBtn);
         return card;
     }
 
+
+    private TextFlow createStyledText(String boldLabel, String normalText) {
+        Text bold = new Text(boldLabel);
+        bold.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 17));
+
+        Text normal = new Text(normalText);
+        normal.setFont(Font.font("Arial", FontWeight.LIGHT,FontPosture.ITALIC, 15));
+
+        return new TextFlow(bold, normal);
+    }
     private void openFile(Task task) {
         File file = new File(task.getAttachedFilePath());
         if (file.exists()) {

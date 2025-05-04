@@ -409,11 +409,6 @@
 
 
 
-.title-label {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
-}
 
 .tasks-container {
     -fx-spacing: 20px;
@@ -426,13 +421,9 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0.3, 0, 2);
 }
 
-.task-label {
-    -fx-font-size: 14px;
-    -fx-text-fill: #333;
-}
 
 .complete-btn {
-    -fx-background-color: #1eaaf1;
+    -fx-background-color:#099be6;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-cursor: hand;
