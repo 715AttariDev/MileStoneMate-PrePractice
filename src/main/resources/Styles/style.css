@@ -406,3 +406,41 @@
     -fx-wrap-text: true;
     -fx-alignment: center;
 }
+
+
+
+.title-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.tasks-container {
+    -fx-spacing: 20px;
+}
+.task-card {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0.3, 0, 2);
+}
+
+.task-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+}
+
+.complete-btn {
+    -fx-background-color: #1eaaf1;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-background-radius: 6;
+}
+.complete-btn:hover{
+        -fx-background-color: #156fd6;
+}
+
+
+

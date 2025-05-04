@@ -1,3 +1,5 @@
-CS Final Year Project,Review Writing,You can write review upto 300 words,2025-05-09,Sami Bin Awais,Pending,null
-CS Final Year Project,Write Summary,nil,2025-05-15,Soban,Pending,null
-OOP,OOP,OOP,2025-04-18,Soban,Pending,null
+ace6db50-064b-48f1-88fb-9acb16b62a75,CS Final Year Project,Review,review writing,2025-05-13,Soban,Completed,null
+f5109598-1ac9-4db2-891a-4e9c5eb21b41,CS Final Year Project,Summary,Summary writing is very ilkajfalsfjfasdsflakjflafjasflkasjfklasfjkdaslf,2025-05-14,Soban,Completed,D:\Java Related\MileStoneMate_1\task_files\Summary\Lec_08 part 1.pdf
+3839658d-4056-451b-bcd5-5ebfb03ca3a8,OOP,OOP,OOP,2025-05-22,Soban,Completed,D:\Java Related\MileStoneMate_1\task_files\OOP\Lec_09 20250301.pdf
+a6347855-7098-46ef-be16-76c9f9d28d79,CS Final Year Project,Nothing,Nothing,2025-05-14,Soban,Completed,D:\Java Related\MileStoneMate_1\task_files\Nothing\ass1Comp.docx
+7782f6fc-9cbf-400b-bcdc-6e65ff858a58,OOP,Nil,Nil,2025-05-09,Soban,Completed,D:\Java Related\MileStoneMate_1\task_files\Nil\ass1Completed.pdf

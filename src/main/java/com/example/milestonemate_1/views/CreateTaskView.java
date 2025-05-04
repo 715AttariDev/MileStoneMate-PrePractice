@@ -1,7 +1,6 @@
 package com.example.milestonemate_1.views;
 
 import com.example.milestonemate_1.FileUtils;
-import com.example.milestonemate_1.User;
 import com.example.milestonemate_1.models.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -21,7 +20,6 @@ public class CreateTaskView implements ViewProvider {
     public Parent getView() {
         AnchorPane pane = new AnchorPane();
         pane.getStyleClass().add("main-pane");
-
         // ====== UI Components ======
         Label titleLabel = new Label("Create New Task");
         titleLabel.getStyleClass().add("form-title");

@@ -66,7 +66,7 @@ public class Layout {
         return buttonStack;
     }
 
-    public static AnchorPane getView(String role) {
+    public static AnchorPane getView(String role,String username) {
         AnchorPane dashAnchorPane = new AnchorPane();
         Label dashboardLeftLabel = new Label("Dashboard");
         dashboardLeftLabel.getStyleClass().add("nav-label");
@@ -110,7 +110,7 @@ public class Layout {
             addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "About", new com.example.milestonemate_1.views.AboutSectionView());
 
         } else if (role.equals("Team Member")) {
-            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "My Tasks", new com.example.milestonemate_1.views.MyTasksView());
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "My Tasks", new com.example.milestonemate_1.views.MyTasksView(username));
             addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Reviewed Tasks", new com.example.milestonemate_1.views.ReviewedTasksView());
             addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Kanban Board", new com.example.milestonemate_1.views.KanbanBoardView());
             addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "About", new com.example.milestonemate_1.views.AboutSectionView());

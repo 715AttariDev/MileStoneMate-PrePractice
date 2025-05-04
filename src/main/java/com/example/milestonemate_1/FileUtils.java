@@ -386,7 +386,61 @@ public class FileUtils {
         }
         return members;
     }
+    public static boolean updateTaskStatus(String taskId, String newStatus) {
+        List<Task> tasks = getAllTasks();
+        boolean updated = false;
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(TASKS_FILE))) {
+            for (Task task : tasks) {
+                if (task.getId().equals(taskId)) {
+                    task.setStatus(newStatus);  // 🔄 update status
+                    updated = true;
+                }
+                writer.write(task.toFileString());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error updating task status: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+        return updated;
+    }
 
 
+    public static boolean copyFile(File sourceFile, File destinationFile) throws FileNotFoundException {
+        if (sourceFile == null || destinationFile == null) {
+            throw new IllegalArgumentException("Source or destination file cannot be null");
+        }
+
+        if (!sourceFile.exists()) {
+            throw new FileNotFoundException("Source file does not exist");
+        }
+
+        // If the destination file's parent directory does not exist, create it
+        File parentDir = destinationFile.getParentFile();
+        if (parentDir != null && !parentDir.exists()) {
+            boolean created = parentDir.mkdirs();
+            if (!created) {
+                throw new RuntimeException("Failed to create directory: " + parentDir.getAbsolutePath());
+            }
+        }
+
+        // Proceed to copy the file
+        try (InputStream in = new FileInputStream(sourceFile);
+             OutputStream out = new FileOutputStream(destinationFile)) {
+
+            byte[] buffer = new byte[1024];  // Buffer size for reading and writing
+            int length;
+            while ((length = in.read(buffer)) > 0) {
+                out.write(buffer, 0, length);
+            }
+            return true; // Successfully copied
+        } catch (IOException e) {
+            System.err.println("Error copying file: " + e.getMessage());
+            e.printStackTrace();
+            return false; // Failure in copying the file
+        }
+    }
 
 }

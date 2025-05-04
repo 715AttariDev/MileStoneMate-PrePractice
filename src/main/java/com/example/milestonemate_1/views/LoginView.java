@@ -82,14 +82,14 @@ public class LoginView {
 
         if (user != null && user.getPassword().equals(password)) {
             Session.setUser(user);
-            navigateToDashboard(user.getRole(), stage);
+            navigateToDashboard(user.getRole(), stage, username);
         } else {
             showAlert(Alert.AlertType.ERROR, "❌ Invalid username or password");
         }
     }
 
-    private void navigateToDashboard(String role, Stage stage) {
-        AnchorPane dashboardView = Layout.getView(role);
+    private void navigateToDashboard(String role, Stage stage, String username) {
+        AnchorPane dashboardView = Layout.getView(role,username);
         Scene dashboardScene = new Scene(dashboardView, 1280, 760);
         dashboardScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/style.css")).toExternalForm());
         stage.setScene(dashboardScene);
