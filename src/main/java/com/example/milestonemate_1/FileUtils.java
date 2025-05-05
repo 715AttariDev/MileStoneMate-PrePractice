@@ -443,4 +443,20 @@ public class FileUtils {
         }
     }
 
+    public static void updateTaskFeedback(String taskId, String feedback) {
+        List<Task> tasks = getAllTasks();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(TASKS_FILE))) {
+            for (Task task : tasks) {
+                if (task.getId().equals(taskId)) {
+                    task.setFeedback(feedback);
+                }
+                writer.write(task.toFileString());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error updating task feedback: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 }

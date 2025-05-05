@@ -4,11 +4,14 @@ import com.example.milestonemate_1.FileUtils;
 import com.example.milestonemate_1.models.Task;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 
-import java.awt.Desktop;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -63,8 +66,8 @@ public class MyTasksView implements ViewProvider {
         VBox card = new VBox();
         card.setPadding(new Insets(15));
         card.getStyleClass().add("task-card");
-        card.setMinWidth(250);
-        card.setMaxWidth(250);
+        card.setMinWidth(280);
+        card.setMaxWidth(280);
         card.setPrefHeight(280); // Or however tall you want the card to be
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d, yyyy");

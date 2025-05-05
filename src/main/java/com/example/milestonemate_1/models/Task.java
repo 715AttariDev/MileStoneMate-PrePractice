@@ -11,9 +11,10 @@ public class Task {
     private String assignedTo;
     private String status;
     private String attachedFilePath;
-    private final String id;  // 🔥 unique ID field
+    private String feedback; // ✅ New field for feedback
+    private final String id;
 
-    // Constructor for creating a new task (auto-generates ID)
+    // Constructor for new tasks
     public Task(String project, String title, String description, LocalDate deadline, String assignedTo, String status, String attachedFilePath) {
         this.project = project;
         this.title = title;
@@ -22,11 +23,12 @@ public class Task {
         this.assignedTo = assignedTo;
         this.status = status;
         this.attachedFilePath = attachedFilePath;
-        this.id = UUID.randomUUID().toString();  // 💥 auto-generate ID
+        this.feedback = ""; // default empty
+        this.id = UUID.randomUUID().toString();
     }
 
-    // Constructor for loading an existing task (uses existing ID)
-    public Task(String id, String project, String title, String description, LocalDate deadline, String assignedTo, String status, String attachedFilePath) {
+    // Constructor for loading existing tasks (includes feedback)
+    public Task(String id, String project, String title, String description, LocalDate deadline, String assignedTo, String status, String attachedFilePath, String feedback) {
         this.id = id;
         this.project = project;
         this.title = title;
@@ -35,27 +37,30 @@ public class Task {
         this.assignedTo = assignedTo;
         this.status = status;
         this.attachedFilePath = attachedFilePath;
+        this.feedback = feedback;
     }
 
     public String toFileString() {
-        // ✅ now saving ID too (first field)
-        return id + "," + project + "," + title + "," + description + "," + deadline.toString() + "," + assignedTo + "," + status + "," + attachedFilePath;
+        return id + "," + project + "," + title + "," + description + "," +
+                deadline.toString() + "," + assignedTo + "," + status + "," +
+                attachedFilePath + "," + feedback.replace("\n", "\\n");  // preserve newlines
     }
 
     public static Task fromFileString(String line) {
-        String[] parts = line.split(",", 8);  // ✅ limit 8 because now we have 8 fields (including ID)
-        if (parts.length < 8) {
+        String[] parts = line.split(",", 9);  // Now expecting 9 parts
+        if (parts.length < 9) {
             throw new IllegalArgumentException("Invalid task data: " + line);
         }
         return new Task(
-                parts[0],  // ID
+                parts[0],  // id
                 parts[1],  // project
                 parts[2],  // title
                 parts[3],  // description
                 LocalDate.parse(parts[4]),
                 parts[5],  // assignedTo
                 parts[6],  // status
-                parts[7]   // attachedFilePath
+                parts[7],  // attachedFilePath
+                parts[8].replace("\\n", "\n")  // restore newlines in feedback
         );
     }
 
@@ -70,10 +75,11 @@ public class Task {
                 ", assignedTo='" + assignedTo + '\'' +
                 ", status='" + status + '\'' +
                 ", attachedFilePath='" + attachedFilePath + '\'' +
+                ", feedback='" + feedback + '\'' +
                 '}';
     }
 
-    // Getters
+    // Getters and setters
     public String getId() { return id; }
     public String getProject() { return project; }
     public String getTitle() { return title; }
@@ -82,9 +88,13 @@ public class Task {
     public String getAssignedTo() { return assignedTo; }
     public String getStatus() { return status; }
     public String getAttachedFilePath() { return attachedFilePath; }
+    public String getFeedback() { return feedback; }
 
-    // ✅ Working setStatus method
     public void setStatus(String newStatus) {
         this.status = newStatus;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
     }
 }

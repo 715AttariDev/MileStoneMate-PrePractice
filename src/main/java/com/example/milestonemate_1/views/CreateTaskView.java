@@ -1,5 +1,4 @@
 package com.example.milestonemate_1.views;
-
 import com.example.milestonemate_1.FileUtils;
 import com.example.milestonemate_1.models.Task;
 import javafx.geometry.Insets;
@@ -9,7 +8,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-
 import java.io.File;
 import java.time.LocalDate;
 import java.util.List;
