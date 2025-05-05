@@ -111,7 +111,7 @@ public class Layout {
 
         } else if (role.equals("Team Member")) {
             addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "My Tasks", new com.example.milestonemate_1.views.MyTasksView(username));
-            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Reviewed Tasks", new com.example.milestonemate_1.views.ReviewedTasksView());
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Reviewed Tasks", new com.example.milestonemate_1.views.ReviewedTasksView(username));
             addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Kanban Board", new com.example.milestonemate_1.views.KanbanBoardView());
             addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "About", new com.example.milestonemate_1.views.AboutSectionView());
 

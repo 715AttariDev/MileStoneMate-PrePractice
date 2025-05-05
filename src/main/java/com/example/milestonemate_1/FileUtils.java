@@ -5,6 +5,8 @@ import com.example.milestonemate_1.models.Task;
 import com.example.milestonemate_1.models.Team;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -440,6 +442,63 @@ public class FileUtils {
             System.err.println("Error copying file: " + e.getMessage());
             e.printStackTrace();
             return false; // Failure in copying the file
+        }
+    }
+
+    public static void updateTaskFeedback(String taskId, String feedback) {
+        List<Task> tasks = getAllTasks();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(TASKS_FILE))) {
+            for (Task task : tasks) {
+                if (task.getId().equals(taskId)) {
+                    task.setFeedback(feedback);
+                }
+                writer.write(task.toFileString());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error updating task feedback: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static List<Task> loadAllTasks() {
+        List<Task> tasks = new ArrayList<>();
+        List<String> lines = readLinesFromFile("tasks.txt");  // Your task file path
+
+        for (String line : lines) {
+            try {
+                Task task = Task.fromFileString(line);
+                tasks.add(task);
+            } catch (Exception e) {
+                System.out.println("Skipping invalid task line: " + line);
+            }
+        }
+        return tasks;
+    }
+
+    public static List<String> readLinesFromFile(String fileName) {
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.trim().isEmpty()) { // skip empty lines
+                    lines.add(line);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + fileName);
+            e.printStackTrace();
+        }
+        return lines;
+    }
+    public static void saveAllTasks(List<Task> tasks) {
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(TASKS_FILE))) {
+            for (Task task : tasks) {
+                writer.write(task.toFileString());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("❌ Error writing tasks file: " + e.getMessage());
         }
     }
 

@@ -6,10 +6,16 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 
+import java.awt.*;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.List;
@@ -20,10 +26,9 @@ public class CreateTaskView implements ViewProvider {
     public Parent getView() {
         AnchorPane pane = new AnchorPane();
         pane.getStyleClass().add("main-pane");
-        // ====== UI Components ======
-        Label titleLabel = new Label("Create New Task");
-        titleLabel.getStyleClass().add("form-title");
 
+        // ====== UI Components ======
+//        Label titleLabel = new Label("Create New Task");
         Label projectLabel = new Label("Select Project:");
         projectLabel.getStyleClass().add("team-label");
 
@@ -46,7 +51,7 @@ public class CreateTaskView implements ViewProvider {
 
         TextArea descArea = new TextArea();
         descArea.setPromptText("Enter task description");
-        descArea.setPrefRowCount(2);
+        descArea.setPrefRowCount(1);
         descArea.getStyleClass().add("team-description");
 
         Label deadlineLabel = new Label("Deadline:");
@@ -61,7 +66,6 @@ public class CreateTaskView implements ViewProvider {
         ComboBox<String> assignComboBox = new ComboBox<>();
         assignComboBox.setPromptText("Select team member");
         assignComboBox.getStyleClass().add("team-lead");
-
         assignComboBox.setDisable(true);
 
         projectComboBox.setOnAction(event -> {
@@ -73,7 +77,6 @@ public class CreateTaskView implements ViewProvider {
                 assignComboBox.getItems().addAll(teamMembers);
             }
         });
-
 
         // ===== File Attachment =====
         Label attachLabel = new Label("Attach File (optional):");
@@ -97,6 +100,15 @@ public class CreateTaskView implements ViewProvider {
             }
         });
 
+        // ====== Priority ======
+        Label priorityLabel = new Label("Priority:");
+        priorityLabel.getStyleClass().add("team-label");
+
+        ComboBox<String> priorityComboBox = new ComboBox<>();
+        priorityComboBox.setPromptText("Select priority");
+        priorityComboBox.getItems().addAll("Low", "Medium", "High");
+        priorityComboBox.getStyleClass().add("team-lead");
+
         // ====== Error Label ======
         Label errorLabel = new Label();
         errorLabel.setStyle("-fx-text-fill: red;");
@@ -111,16 +123,16 @@ public class CreateTaskView implements ViewProvider {
             String description = descArea.getText().trim();
             LocalDate deadline = deadlinePicker.getValue();
             String assignee = assignComboBox.getValue();
+            String priority = priorityComboBox.getValue();
 
-            if (selectedProject == null || taskName.isEmpty() || description.isEmpty() || deadline == null || assignee == null) {
-                errorLabel.setText("Please fill in all fields.");
+            if (selectedProject == null || taskName.isEmpty() || description.isEmpty() || deadline == null || assignee == null || priority == null) {
+                errorLabel.setText("Please fill in all fields, including priority.");
                 errorLabel.setStyle("-fx-text-fill: red;");
                 return;
             }
 
             String filePath = null;
             if (selectedFile[0] != null) {
-                // save the file to attached_files folder
                 filePath = FileUtils.copyFileToTaskFolder(selectedFile[0], taskName);
                 if (filePath == null) {
                     errorLabel.setStyle("-fx-text-fill: red;");
@@ -129,8 +141,7 @@ public class CreateTaskView implements ViewProvider {
                 }
             }
 
-            // updated Task with filePath
-            Task task = new Task(selectedProject, taskName, description, deadline, assignee, "Pending", filePath);
+            Task task = new Task(selectedProject, taskName, description, deadline, assignee, "Pending", filePath, priority);
             boolean success = FileUtils.saveTask(task);
 
             if (success) {
@@ -143,6 +154,7 @@ public class CreateTaskView implements ViewProvider {
                 descArea.clear();
                 deadlinePicker.setValue(null);
                 assignComboBox.getSelectionModel().clearSelection();
+                priorityComboBox.getSelectionModel().clearSelection();
                 fileNameLabel.setText("No file selected");
                 selectedFile[0] = null;
             } else {
@@ -153,12 +165,12 @@ public class CreateTaskView implements ViewProvider {
 
         // ====== Layout ======
         VBox layout = new VBox(5,
-                titleLabel,
                 projectLabel, projectComboBox,
                 nameLabel, nameField,
                 descLabel, descArea,
                 deadlineLabel, deadlinePicker,
                 assignLabel, assignComboBox,
+                priorityLabel, priorityComboBox,
                 attachLabel, attachButton, fileNameLabel,
                 errorLabel,
                 submitButton

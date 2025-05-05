@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class Task {
+    private final String id;
     private String project;
     private String title;
     private String description;
@@ -11,10 +12,13 @@ public class Task {
     private String assignedTo;
     private String status;
     private String attachedFilePath;
-    private final String id;  // 🔥 unique ID field
+    private String feedback; // ✅ feedback field
+    private String priority; // ✅ priority field
 
-    // Constructor for creating a new task (auto-generates ID)
-    public Task(String project, String title, String description, LocalDate deadline, String assignedTo, String status, String attachedFilePath) {
+    // Constructor for creating a NEW task
+    public Task(String project, String title, String description, LocalDate deadline,
+                String assignedTo, String status, String attachedFilePath, String priority) {
+        this.id = UUID.randomUUID().toString();
         this.project = project;
         this.title = title;
         this.description = description;
@@ -22,11 +26,13 @@ public class Task {
         this.assignedTo = assignedTo;
         this.status = status;
         this.attachedFilePath = attachedFilePath;
-        this.id = UUID.randomUUID().toString();  // 💥 auto-generate ID
+        this.feedback = ""; // default empty
+        this.priority = priority;
     }
 
-    // Constructor for loading an existing task (uses existing ID)
-    public Task(String id, String project, String title, String description, LocalDate deadline, String assignedTo, String status, String attachedFilePath) {
+    // Constructor for loading EXISTING task (with ID and feedback)
+    public Task(String id, String project, String title, String description, LocalDate deadline,
+                String assignedTo, String status, String attachedFilePath, String feedback, String priority) {
         this.id = id;
         this.project = project;
         this.title = title;
@@ -35,28 +41,45 @@ public class Task {
         this.assignedTo = assignedTo;
         this.status = status;
         this.attachedFilePath = attachedFilePath;
+        this.feedback = feedback;
+        this.priority = priority;
     }
 
+    // Serialize to file string (all fields)
     public String toFileString() {
-        // ✅ now saving ID too (first field)
-        return id + "," + project + "," + title + "," + description + "," + deadline.toString() + "," + assignedTo + "," + status + "," + attachedFilePath;
+        return String.join("|",
+                id,
+                project,
+                title,
+                description,
+                deadline.toString(),
+                assignedTo,
+                status,
+                attachedFilePath == null ? "null" : attachedFilePath,
+                feedback.replace("\n", "\\n"),
+                priority
+        );
     }
 
+    // Deserialize from file string (all fields)
     public static Task fromFileString(String line) {
-        String[] parts = line.split(",", 8);  // ✅ limit 8 because now we have 8 fields (including ID)
-        if (parts.length < 8) {
+        String[] parts = line.split("\\|", -1);  // expecting 10 parts
+        if (parts.length < 10) {
             throw new IllegalArgumentException("Invalid task data: " + line);
         }
-        return new Task(
-                parts[0],  // ID
-                parts[1],  // project
-                parts[2],  // title
-                parts[3],  // description
-                LocalDate.parse(parts[4]),
-                parts[5],  // assignedTo
-                parts[6],  // status
-                parts[7]   // attachedFilePath
-        );
+
+        String id = parts[0];
+        String project = parts[1];
+        String title = parts[2];
+        String description = parts[3];
+        LocalDate deadline = LocalDate.parse(parts[4]);
+        String assignedTo = parts[5];
+        String status = parts[6];
+        String attachedFilePath = "null".equals(parts[7]) ? null : parts[7];
+        String feedback = parts[8].replace("\\n", "\n");
+        String priority = parts[9];
+
+        return new Task(id, project, title, description, deadline, assignedTo, status, attachedFilePath, feedback, priority);
     }
 
     @Override
@@ -70,10 +93,12 @@ public class Task {
                 ", assignedTo='" + assignedTo + '\'' +
                 ", status='" + status + '\'' +
                 ", attachedFilePath='" + attachedFilePath + '\'' +
+                ", feedback='" + feedback + '\'' +
+                ", priority='" + priority + '\'' +
                 '}';
     }
 
-    // Getters
+    // Getters and setters
     public String getId() { return id; }
     public String getProject() { return project; }
     public String getTitle() { return title; }
@@ -82,9 +107,10 @@ public class Task {
     public String getAssignedTo() { return assignedTo; }
     public String getStatus() { return status; }
     public String getAttachedFilePath() { return attachedFilePath; }
+    public String getFeedback() { return feedback; }
+    public String getPriority() { return priority; }
 
-    // ✅ Working setStatus method
-    public void setStatus(String newStatus) {
-        this.status = newStatus;
-    }
+    public void setStatus(String newStatus) { this.status = newStatus; }
+    public void setFeedback(String feedback) { this.feedback = feedback; }
+    public void setPriority(String priority) { this.priority = priority; }
 }
