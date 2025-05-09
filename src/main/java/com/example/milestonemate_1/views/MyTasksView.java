@@ -30,7 +30,6 @@ public class MyTasksView implements ViewProvider {
 
     public AnchorPane getView() {
         AnchorPane pane = new AnchorPane();
-        pane.getStyleClass().add("root");
 
         tasksContainer = new FlowPane();
         tasksContainer.setPadding(new Insets(20));
@@ -59,7 +58,7 @@ public class MyTasksView implements ViewProvider {
         }
 
         AnchorPane.setTopAnchor(tasksContainer, 0.0);
-        AnchorPane.setLeftAnchor(tasksContainer, 20.0);
+        AnchorPane.setLeftAnchor(tasksContainer, 60.0);
         AnchorPane.setRightAnchor(tasksContainer, 0.0);
         AnchorPane.setBottomAnchor(tasksContainer, 0.0);
 

@@ -1,6 +1,8 @@
 package com.example.milestonemate_1;
 
+import com.example.milestonemate_1.views.KanbanBoardView;
 import com.example.milestonemate_1.views.LoginView;
+import com.example.milestonemate_1.views.ViewProvider;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.geometry.Insets;
@@ -8,6 +10,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import java.util.function.Supplier;
+
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -99,25 +103,24 @@ public class Layout {
         sideBar.getChildren().add(dashboardBtn);
 
         if (role.equals("Manager")) {
-            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Create Team", new com.example.milestonemate_1.views.CreateTeamView());
-            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Create Project", new com.example.milestonemate_1.views.CreateProjectView());
-            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Create Tasks", new com.example.milestonemate_1.views.CreateTaskView());
-            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Kanban Board", new com.example.milestonemate_1.views.KanbanBoardView());
-            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "About", new com.example.milestonemate_1.views.AboutSectionView());
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Create Team", () -> new com.example.milestonemate_1.views.CreateTeamView());
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Create Project", () -> new com.example.milestonemate_1.views.CreateProjectView());
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Create Tasks", () -> new com.example.milestonemate_1.views.CreateTaskView());
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Kanban Board", () -> new com.example.milestonemate_1.views.KanbanBoardView(role, username));
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "About", () -> new com.example.milestonemate_1.views.AboutSectionView());
         } else if (role.equals("Team Lead")) {
-            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Review Tasks", new com.example.milestonemate_1.views.ReviewTasksView());
-            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Kanban Board", new com.example.milestonemate_1.views.KanbanBoardView());
-            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "About", new com.example.milestonemate_1.views.AboutSectionView());
-
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Review Tasks", () -> new com.example.milestonemate_1.views.ReviewTasksView());
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Kanban Board", () -> new com.example.milestonemate_1.views.KanbanBoardView(role, username));
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "About", () -> new com.example.milestonemate_1.views.AboutSectionView());
         } else if (role.equals("Team Member")) {
-            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "My Tasks", new com.example.milestonemate_1.views.MyTasksView(username));
-            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Reviewed Tasks", new com.example.milestonemate_1.views.ReviewedTasksView(username));
-            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Kanban Board", new com.example.milestonemate_1.views.KanbanBoardView());
-            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "About", new com.example.milestonemate_1.views.AboutSectionView());
-
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "My Tasks", () -> new com.example.milestonemate_1.views.MyTasksView(username));
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Reviewed Tasks", () -> new com.example.milestonemate_1.views.ReviewedTasksView(username));
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "Kanban Board", () -> new com.example.milestonemate_1.views.KanbanBoardView(role, username));
+            addSidebarButton(sideBar, centerContent, dashboardLeftLabel, "About", () -> new com.example.milestonemate_1.views.AboutSectionView());
         } else {
             System.out.println("⚠️ Unknown role: " + role);
         }
+
 
         AnchorPane.setTopAnchor(sideBar, 0.0);
         AnchorPane.setBottomAnchor(sideBar, 0.0);
@@ -210,16 +213,17 @@ public class Layout {
         return dashAnchorPane;
     }
 
-    private static void addSidebarButton(VBox sideBar, StackPane centerContent, Label navLabel, String labelText, Object viewInstance) {
+
+    // Update this:
+    private static void addSidebarButton(VBox sideBar, StackPane centerContent, Label navLabel, String labelText, Supplier<ViewProvider> viewSupplier) {
         Button[] btnRef = new Button[1];
         StackPane btn = createAnimatedButton(labelText, btnRef);
         btnRef[0].setOnAction(e -> {
-            if (viewInstance instanceof com.example.milestonemate_1.views.ViewProvider) {
-                com.example.milestonemate_1.views.ViewProvider viewProvider = (com.example.milestonemate_1.views.ViewProvider) viewInstance;
-                centerContent.getChildren().setAll(viewProvider.getView());
-                animateNavTitleChange(navLabel, labelText);
-            }
+            ViewProvider viewProvider = viewSupplier.get();  // Create a fresh instance every time
+            centerContent.getChildren().setAll(viewProvider.getView());
+            animateNavTitleChange(navLabel, labelText);
         });
         sideBar.getChildren().add(btn);
     }
+
 }

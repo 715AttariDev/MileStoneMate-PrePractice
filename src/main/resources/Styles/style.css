@@ -617,3 +617,168 @@
 }
 
 
+// Kanban Board Css
+
+
+.kanban-columns {
+    -fx-padding: 10;
+}
+
+.kanban-column {
+    -fx-background-color: #ffffff;
+    -fx-padding: 10px;
+    -fx-background-radius: 10;
+    -fx-pref-width: 300px; /* fallback for equal size */
+    -fx-max-width: Infinity;
+}
+
+
+.column-header {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+.kanban-scroll {
+    -fx-background: transparent;
+}
+
+.complete-button {
+    -fx-background-color: #4caf50;
+    -fx-text-fill: white;
+    -fx-padding: 6px 12px;
+    -fx-background-radius: 5;
+}
+
+
+.task-project {
+    -fx-font-weight: 600;
+    -fx-text-fill: #434343;
+    -fx-font-size: 16px;
+
+}
+
+.task-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #434343;
+}
+
+.task-priority {
+    -fx-font-size: 16px;
+}
+
+.task-deadline {
+    -fx-font-size: 16px;
+    -fx-text-fill: #777777;
+}
+.task-assigned-to{
+    -fx-font-size: 16px;
+    -fx-text-fill: #434343;
+}
+.kanban-card{
+    -fx-background-color: #ffffff;
+       -fx-border-color: #e0e0e0;
+       -fx-border-radius: 10;
+       -fx-background-radius: 10;
+       -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0.3, 0, 2);
+}
+.kanban-card:hover {
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+    -fx-cursor: hand;
+}
+
+/* Apply to the scroll pane */
+.kanban-scroll {
+    -fx-background-color: transparent;
+}
+
+/* Style the scroll bar itself */
+.kanban-scroll .scroll-bar {
+    -fx-background-color: linear-gradient(to bottom, #ffffff, #f0f0f0); /* light gradient background */
+    -fx-pref-width: 12px;
+    -fx-pref-height: 8px;
+}
+
+/* Style the thumb (draggable part) */
+.kanban-scroll .scroll-bar .thumb {
+    -fx-background-color: linear-gradient(to bottom, #74cae7,#a8e2f7); /* soft blue gradient */
+    -fx-background-insets: 2;
+    -fx-background-radius: 5;
+}
+
+/* Style the track (background of the bar) */
+.kanban-scroll .scroll-bar .track {
+    -fx-background-color: linear-gradient(to bottom, #ffffff, #f2f2f2);
+    -fx-background-insets: 0;
+    -fx-background-radius: 5;
+}
+
+/* Hover effect on thumb */
+.kanban-scroll .scroll-bar .thumb:hover {
+    -fx-background-color: linear-gradient(to bottom, #4eb3d1,#88d3ec); /* slightly darker blue gradient on hover */
+}
+
+/* Optional: remove increment/decrement buttons */
+.kanban-scroll .scroll-bar .increment-button,
+.kanban-scroll .scroll-bar .decrement-button {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+}
+.kanban-column.column-pending {
+    -fx-background-color: #fff3cd; /* light yellow */
+}
+
+.kanban-column.column-completed {
+    -fx-background-color: #d4edda; /* light green */
+}
+
+.kanban-column.column-approved {
+    -fx-background-color: #cce5ff; /* light blue */
+}
+
+.kanban-column.column-needs-changes {
+    -fx-background-color: #f8d7da; /* light red/pink */
+}
+
+.kanban-column.column-default {
+    -fx-background-color: #f0f0f0; /* light gray fallback */
+}
+
+.priority-high {
+    -fx-background-color: #f8d7da;
+    -fx-text-fill:#b92e3a ;
+    -fx-background-radius: 4px;
+    -fx-padding: 4px 12px;
+    -fx-font-style: italic;
+
+}
+
+.priority-medium {
+     -fx-background-color: #fff3cd;
+     -fx-text-fill: #856404;
+     -fx-background-radius: 4px;
+    -fx-padding: 4px 12px;
+    -fx-font-style: italic;
+
+ }
+
+ .priority-low {
+     -fx-background-color: #d4edda;
+     -fx-text-fill: #155724;
+     -fx-background-radius: 4px;
+    -fx-padding: 4px 12px;
+    -fx-font-style: italic;
+
+ }
+
+ .priority-default {
+     -fx-background-color: #e2e3e5;
+     -fx-text-fill: #6c757d;
+     -fx-background-radius: 4px;
+    -fx-padding: 4px 8px;
+    -fx-font-style: italic;
+
+ }
+
