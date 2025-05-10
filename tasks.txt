@@ -1,8 +1,8 @@
-802cac58-523f-4e16-af4e-b6e19e4b5b1e|Communication Skills|Summary Writing|You have to write a summary from pages 25-45 of 300 words minimum|2026-06-15|Soban|Approved|null||High
+802cac58-523f-4e16-af4e-b6e19e4b5b1e|Communication Skills|Summary Writing|You have to write a summary from pages 25-45 of 300 words minimum|2026-06-15|Soban|Completed|null||High
 3dcf9553-191f-452f-9de8-da2611849663|Communication Skills|Summary Writing|You have to write a summary from pages 45-100 of 300 words minimum|2025-06-08|Ali|Approved|null||High
 08a162a9-ccd9-4501-8bbf-251b24f1bf44|Communication Skills|Review Writing|You have to write a review from pages 25-45 of 300 words minimum|2025-06-15|Soban|Approved|null||Medium
 0ec57cbe-483f-4729-a7b5-8846f67f2620|Communication Skills|Review Writing|You have to review a summary from pages 100-145 of 300 words minimum|2025-06-15|Ali|Approved|null||Medium
-72f6674f-11d8-4018-a6a2-8dd8f3c0e957|Communication Skills|Slide Preparation|You have to prepare  slides for the presentation|2025-06-15|Usman Nisaar|Approved|D:\Java Related\MileStoneMate_1\task_files\Slide Preparation\CV.pdf||High
+72f6674f-11d8-4018-a6a2-8dd8f3c0e957|Communication Skills|Slide Preparation|You have to prepare  slides for the presentation|2025-06-15|Usman Nisaar|Approved|D:\Java Related\MileStoneMate_1\task_files\Slide Preparation\CV.pdf|well done|High
 fc507e54-ba82-4762-80a5-096a04c68188|Communication Skills|Dress Selection|You have to decide the looking of presentation|2025-06-08|Sami Bin Awais|Approved|null||High
-9590fb8e-0354-4430-858d-a0c785b0b473|Communication Skills|Printing CV|You have to print CV|2025-05-12|Soban|Pending|null||Medium
-c41f4338-2aaf-41b0-89f1-3626c6b1d5b7|Communication Skills|New task1|nil|2025-05-17|Soban|Pending|null||Low
+9590fb8e-0354-4430-858d-a0c785b0b473|Communication Skills|Printing CV|You have to print CV|2025-05-12|Soban|Completed|null||Medium
+c41f4338-2aaf-41b0-89f1-3626c6b1d5b7|Communication Skills|New task1|nil|2025-05-17|Soban|Completed|null||Low

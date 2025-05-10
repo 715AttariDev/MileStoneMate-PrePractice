@@ -833,26 +833,52 @@
 
 .dash-header-box {
     -fx-background-color: white;
-    -fx-background-radius: 10;
-    -fx-border-radius: 10;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
-    -fx-padding: 10;
+    -fx-padding: 10px;
 }
 
 .dash-vbox {
     -fx-background-color: white;
-    -fx-background-radius: 10;
-    -fx-border-radius: 10;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
-    -fx-padding: 10;
-    -fx-spacing: 5;
+    -fx-padding: 10px;
+    -fx-spacing: 5px;
 }
 
-.label-header {
-    -fx-font-family: "System";
+.DashWelcomeLabel{
     -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-text-fill: #101010;
+
+
+}
+.DashRoleLabel{
+    -fx-font-size: 18px;
+    -fx-font-style:  italic;
+    -fx-font-weight: 600;
+    -fx-text-fill: #202020;
+
 }
 
-.label-project {
-    -fx-font-size: 14;
+.default-color0.chart-bar {
+    -fx-bar-fill: #002b91;
+}
+
+.custom-bar-chart .chart-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+        -fx-text-fill: #101010;
+
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-padding: 10 0 5 0;  /* top-right-bottom-left */
+    -fx-alignment: center;
+}
+.dashBoardStatusLabel{
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #101010;
+
 }
