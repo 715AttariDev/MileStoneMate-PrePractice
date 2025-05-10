@@ -782,3 +782,77 @@
 
  }
 
+// DashBoard css
+.dash-pane {
+    -fx-background-color: transparent;
+}
+
+.dash-content-box {
+    -fx-background-color: transparent;
+    -fx-padding: 5;
+    -fx-spacing: 10;
+}
+
+.welcome-label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.dashboard-section-title {
+    -fx-font-size: 16px;
+    -fx-text-fill: #333;
+    -fx-font-weight: 600;
+    -fx-alignment: top-left;
+
+}
+
+.chart-box {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 300px;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0.1, 2, 2);
+}
+
+
+.circular-chart {
+    -fx-progress-color: #3498db;
+}
+
+.circular-chart-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.circular-chart-detail {
+    -fx-font-size: 12px;
+}
+
+.dash-header-box {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+    -fx-padding: 10;
+}
+
+.dash-vbox {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+    -fx-padding: 10;
+    -fx-spacing: 5;
+}
+
+.label-header {
+    -fx-font-family: "System";
+    -fx-font-weight: bold;
+}
+
+.label-project {
+    -fx-font-size: 14;
+}

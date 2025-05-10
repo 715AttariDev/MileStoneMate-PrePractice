@@ -1,6 +1,8 @@
 package com.example.milestonemate_1;
 
-import com.example.milestonemate_1.views.KanbanBoardView;
+import com.example.milestonemate_1.models.Task;
+import com.example.milestonemate_1.views.DashBoardView;
+import java.time.LocalDate;
 import com.example.milestonemate_1.views.LoginView;
 import com.example.milestonemate_1.views.ViewProvider;
 import javafx.animation.FadeTransition;
@@ -10,6 +12,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.util.List;
 import java.util.function.Supplier;
 
 import javafx.scene.layout.*;
@@ -18,7 +22,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
@@ -97,7 +100,12 @@ public class Layout {
         Button[] dashboardBtnRef = new Button[1];
         StackPane dashboardBtn = createAnimatedButton("Dashboard", dashboardBtnRef);
         dashboardBtnRef[0].setOnAction(e -> {
-            centerContent.getChildren().setAll(new com.example.milestonemate_1.views.DashBoardView().getView());
+            List<Task> tasks = FileUtils.getAllTasks();
+// Load dashboard view with tasks
+            centerContent.getChildren().setAll(
+                    new DashBoardView(role, username, tasks).getView()
+            );
+//            centerContent.getChildren().setAll(new com.example.milestonemate_1.views.DashBoardView(role,username).getView());
             animateNavTitleChange(dashboardLeftLabel, "Dashboard");
         });
         sideBar.getChildren().add(dashboardBtn);
@@ -200,8 +208,11 @@ public class Layout {
         AnchorPane.setRightAnchor(navBar, 0.0);
 
         centerContent.setPadding(new Insets(20));
-
-        centerContent.getChildren().setAll(new com.example.milestonemate_1.views.DashBoardView().getView());
+        List<Task> tasks = FileUtils.getAllTasks();
+// Load dashboard view with tasks
+        centerContent.getChildren().setAll(
+                new DashBoardView(role, username, tasks).getView()
+        );
 
         AnchorPane.setTopAnchor(centerContent, 85.0);
         AnchorPane.setLeftAnchor(centerContent, 215.0);

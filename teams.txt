@@ -1,2 +1,1 @@
-Communications Skills;Abdul Basit;Abdullah Arshad,Usman Nisaar,Soban,Sami Bin Awais;This team is for the CS final project
-team;Bilal;Abdullah Arshad,Usman Nisaar,Soban,Sami Bin Awais;nil
+Alpha;Bilal;Usman Nisaar,Soban,Sami Bin Awais,Ali;This is our alpha team

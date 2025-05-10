@@ -156,9 +156,9 @@ public class FileUtils {
             if (project.getProjectName().isEmpty() || project.getDescription().isEmpty() || project.getTeamName().isEmpty() || project.getDueDate() == null) {
                 throw new IllegalArgumentException("Project data cannot be empty");
             }
-            writer.write(project.getProjectName() + "," +
-                    project.getDescription() + "," +
-                    project.getTeamName() + "," +
+            writer.write(project.getProjectName() + " | " +
+                    project.getDescription() + " | " +
+                    project.getTeamName() + " | " +
                     project.getDueDate());
             writer.newLine();
             return true;
@@ -169,38 +169,9 @@ public class FileUtils {
         }
     }
 
-    // Get all projects
-    public static List<Project> getAllProjects() {
-        List<Project> projects = new ArrayList<>();
-        File file = new File(PROJECTS_FILE);
-        if (!file.exists()) return projects;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] projectData = line.split(",");
-                if (projectData.length == 4) {
-                    try {
-                        Project project = new Project(
-                                projectData[0],
-                                projectData[1],
-                                projectData[2],
-                                LocalDate.parse(projectData[3])
-                        );
-                        projects.add(project);
-                    } catch (Exception e) {
-                        System.err.println("Skipping invalid project entry: " + line);
-                    }
-                } else {
-                    System.err.println("Skipping invalid project entry: " + line);
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading projects: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return projects;
-    }
+
+
 
     // Check if a project name already exists
     public static boolean isProjectNameExists(String projectName) {
@@ -211,7 +182,7 @@ public class FileUtils {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.trim().isEmpty()) continue; // Skip empty lines
-                String[] projectData = line.split(",");
+                String[] projectData = line.split("\\s*\\|\\s*");
                 if (projectData.length >= 1 && projectData[0].equalsIgnoreCase(projectName)) {
                     return true;
                 }
@@ -222,6 +193,7 @@ public class FileUtils {
         }
         return false;
     }
+
 
     // Get all teams from the file
     public static List<Team> getAllTeams() {
@@ -261,13 +233,13 @@ public class FileUtils {
 
     public static List<String> getAllProjectNames() {
         List<String> projectNames = new ArrayList<>();
-        File file = new File("projects.txt");  // should point to projects.txt, not teams.txt
+        File file = new File("projects.txt");  // should point to projects.txt
         if (!file.exists()) return projectNames;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
+                String[] parts = line.split("\\s*\\|\\s*");
                 if (parts.length > 0) projectNames.add(parts[0]);  // project name
             }
         } catch (IOException e) {
@@ -275,6 +247,39 @@ public class FileUtils {
         }
         return projectNames;
     }
+    // Get all projects from the file
+    public static List<Project> getAllProjects() {
+        List<Project> projects = new ArrayList<>();
+        File file = new File(PROJECTS_FILE);
+        if (!file.exists()) {
+            System.out.println("Projects file not found: " + PROJECTS_FILE);
+            return projects;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split("\\s*\\|\\s*"); // Split by ' | ' ignoring spaces
+                if (parts.length == 4) {
+                    String name = parts[0];
+                    String desc = parts[1];
+                    String team = parts[2];
+                    LocalDate dueDate = LocalDate.parse(parts[3]);
+
+                    Project project = new Project(name, desc, team, dueDate);
+                    projects.add(project);
+                } else {
+                    System.err.println("Skipping invalid line: " + line);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading projects file: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return projects;
+    }
+
 
 
     public static List<String> getAllUsernames() {
@@ -361,7 +366,7 @@ public class FileUtils {
 
             // First: Find the team name for the given project
             while ((projectLine = br.readLine()) != null) {
-                String[] parts = projectLine.split(",");
+                String[] parts = projectLine.split("\\s*\\|\\s*");
                 if (parts.length >= 3 && parts[0].equalsIgnoreCase(projectName)) {
                     teamName = parts[2].trim();
                     break;
@@ -388,6 +393,7 @@ public class FileUtils {
         }
         return members;
     }
+
     public static boolean updateTaskStatus(String taskId, String newStatus) {
         List<Task> tasks = getAllTasks();
         boolean updated = false;

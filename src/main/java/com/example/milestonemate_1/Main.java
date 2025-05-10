@@ -20,3 +20,9 @@ public class Main extends Application {
         launch(args);
     }
 }
+//
+//| Role            | What to Show                                        |
+//        | --------------- | --------------------------------------------------- |
+//        | **Manager**     | All projects summary, team stats, global pie chart  |
+//        | **Team Lead**   | Tasks to review, team progress, task approval rates |
+//        | **Team Member** | My tasks, personal progress, upcoming deadlines     |
