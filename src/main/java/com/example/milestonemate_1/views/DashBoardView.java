@@ -139,8 +139,8 @@ public class DashBoardView implements ViewProvider {
 
         DecimalFormat df = new DecimalFormat("#.##");
 
-        StackPane loaderPane1 = createLoaderPane(Color.DODGERBLUE, "Pending Tasks", df.format(pendingPercent) + "%");
-        StackPane loaderPane2 = createLoaderPane(Color.DODGERBLUE, "Approved Tasks", df.format(approvedPercent) + "%");
+        StackPane loaderPane1 = createLoaderPane("Pending Tasks", df.format(pendingPercent) + "%");
+        StackPane loaderPane2 = createLoaderPane("Approved Tasks", df.format(approvedPercent) + "%");
 
         tasksChartBox.getChildren().addAll(chart, loaderPane1, loaderPane2);
 
@@ -181,7 +181,7 @@ public class DashBoardView implements ViewProvider {
         return root;
     }
 
-    private StackPane createLoaderPane(Color strokeColor, String labelText, String percentageText) {
+    private StackPane createLoaderPane(String labelText, String percentageText) {
         Arc arc = new Arc(50, 50, 40, 40, 90, 270);
         arc.setFill(Color.TRANSPARENT);
         arc.setStrokeWidth(10);
