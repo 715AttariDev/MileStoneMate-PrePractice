@@ -171,7 +171,7 @@ public class Layout {
         int randomIndex = (int)(Math.random() * colors.length);
         avatarCircle.setStyle("-fx-fill:" + colors[randomIndex] + ";");
 
-        Label firstLetterLabel = new Label(role.substring(0, 1).toUpperCase());
+        Label firstLetterLabel = new Label(username.substring(0, 1).toUpperCase());
         firstLetterLabel.getStyleClass().add("initial-label");  // Ensure this applies the .initial-label class
 
         profileImageContainer.getChildren().addAll(avatarCircle, firstLetterLabel);

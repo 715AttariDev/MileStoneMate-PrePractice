@@ -9,7 +9,6 @@ import javafx.animation.RotateTransition;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Side;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
@@ -56,7 +55,7 @@ public class DashBoardView implements ViewProvider {
         Label welcomeLabel = new Label("Welcome's " + username);
         welcomeLabel.getStyleClass().add("DashWelcomeLabel");
 
-        Label dashboardLabel = new Label(role+ "'s Dashboard");
+        Label dashboardLabel = new Label(role + "'s Dashboard");
         dashboardLabel.getStyleClass().add("DashRoleLabel");
 
         headerLabels.getChildren().addAll(welcomeLabel, dashboardLabel);
@@ -97,7 +96,7 @@ public class DashBoardView implements ViewProvider {
         FlowPane tasksPane = new FlowPane(10, 10);
         tasksPane.setLayoutX(0);
         tasksPane.setLayoutY(290);
-        tasksPane.setPrefSize(874, 329);
+        tasksPane.setPrefSize(1000, 329);
 
         VBox tasksStatusBox = new VBox(10);
         tasksStatusBox.setPrefSize(504, 319);
@@ -106,10 +105,8 @@ public class DashBoardView implements ViewProvider {
         Label tasksStatusLabel = new Label("Task Progress");
         tasksStatusLabel.getStyleClass().add("dashBoardStatusLabel");
 
-
         HBox tasksChartBox = new HBox(10);
         tasksChartBox.setPrefSize(500, 275);
-//        tasksChartBox.getStyleClass().add("dash-vbox");
 
         PieChart chart = new PieChart(FXCollections.observableArrayList(
                 new PieChart.Data("Completed", statusCounts.getOrDefault("Completed", 0)),
@@ -118,8 +115,7 @@ public class DashBoardView implements ViewProvider {
                 new PieChart.Data("Approved", statusCounts.getOrDefault("Approved", 0))
         ));
         chart.setPrefSize(300, 300);
-        chart.setLegendVisible(true);
-        chart.setLegendSide(Side.BOTTOM);
+        chart.setLegendVisible(false);
 
         applyColors(chart, Map.of(
                 "Completed", "#00bbff",
@@ -128,7 +124,13 @@ public class DashBoardView implements ViewProvider {
                 "Approved", "#001587"
         ));
 
-        int totalTasks = tasks.size();
+        int totalTasks = 0;
+        for (Task task : tasks) {
+            if (!role.equalsIgnoreCase("Team Member") || task.getAssignedTo().equalsIgnoreCase(username)) {
+                totalTasks++;
+            }
+        }
+
         int pendingCount = statusCounts.getOrDefault("Pending", 0);
         int approvedCount = statusCounts.getOrDefault("Approved", 0);
 
@@ -144,71 +146,59 @@ public class DashBoardView implements ViewProvider {
 
         tasksStatusBox.getChildren().addAll(tasksStatusLabel, tasksChartBox);
 
-        // Bar chart setup
+        // Bar Chart
         CategoryAxis xAxis = new CategoryAxis();
-        xAxis.setLabel("Deadlines");  // 🠔 Label under the x-axis
+        xAxis.setLabel("Deadlines");
 
         NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel("Tasks");  // 🠔 Label next to the y-axis
+        yAxis.setLabel("Tasks");
 
         BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
         barChart.setPrefSize(356, 208);
         barChart.setTitle("Tasks Deadline");
         barChart.getStyleClass().add("custom-bar-chart");
 
-// Filter deadlines based on role
         Map<String, Integer> deadlineCounts = new HashMap<>();
         for (Task task : tasks) {
             if (role.equalsIgnoreCase("Team Member") && !task.getAssignedTo().equalsIgnoreCase(username)) {
                 continue;
             }
-            String deadline = task.getDeadline().toString();  // format as needed
+            String deadline = task.getDeadline().toString();
             deadlineCounts.put(deadline, deadlineCounts.getOrDefault(deadline, 0) + 1);
         }
 
-// Populate bar chart
         XYChart.Series<String, Number> deadlineSeries = new XYChart.Series<>();
+        deadlineSeries.setName("Task Count by Deadline");
         for (Map.Entry<String, Integer> entry : deadlineCounts.entrySet()) {
             deadlineSeries.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
-            deadlineSeries.setName("Task Count by Deadline");
         }
         barChart.getData().clear();
         barChart.getData().add(deadlineSeries);
 
         tasksPane.getChildren().addAll(tasksStatusBox, barChart);
-
         root.getChildren().addAll(headerBox, projectsBox, tasksPane);
 
         return root;
     }
-
 
     private StackPane createLoaderPane(Color strokeColor, String labelText, String percentageText) {
         Arc arc = new Arc(50, 50, 40, 40, 90, 270);
         arc.setFill(Color.TRANSPARENT);
         arc.setStrokeWidth(10);
 
-        // Define gradient stops
         Stop[] stops = new Stop[] {
-                new Stop(0, Color.web("#0091ff")),  // Light blue
-                new Stop(1, Color.web("#000ba1"))   // Dark blue
+                new Stop(0, Color.web("#0091ff")),
+                new Stop(1, Color.web("#000ba1"))
         };
 
-        // Create a linear gradient
-        LinearGradient gradient = new LinearGradient(
-                0, 0, 1, 1,  // StartX, StartY, EndX, EndY (relative)
-                true,        // proportional
-                CycleMethod.NO_CYCLE, stops
-        );
-
-        arc.setStroke(gradient);  // Apply the gradient to the stroke
+        LinearGradient gradient = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
+        arc.setStroke(gradient);
 
         RotateTransition rotate = new RotateTransition(Duration.seconds(2), arc);
         rotate.setByAngle(360);
         rotate.setCycleCount(Animation.INDEFINITE);
         rotate.play();
 
-        // Percentage label (center of arc)
         Label percentageLabel = new Label(percentageText);
         percentageLabel.setFont(Font.font("System", FontWeight.BOLD, 14));
         percentageLabel.setTextFill(Color.BLACK);
@@ -217,7 +207,6 @@ public class DashBoardView implements ViewProvider {
         StackPane arcWithPercentage = new StackPane(arc, percentageLabel);
         arcWithPercentage.setPrefSize(100, 100);
 
-        // Label below arc
         Label belowLabel = new Label(labelText);
         belowLabel.setFont(Font.font("System", FontWeight.NORMAL, 12));
         belowLabel.setTextFill(Color.BLACK);
@@ -227,13 +216,8 @@ public class DashBoardView implements ViewProvider {
         vbox.setAlignment(Pos.CENTER);
         vbox.getChildren().addAll(arcWithPercentage, belowLabel);
 
-        StackPane loaderPane = new StackPane(vbox);
-        loaderPane.setPrefSize(150, 150);
-
-        return loaderPane;
+        return new StackPane(vbox);
     }
-
-
 
     private void applyColors(PieChart chart, Map<String, String> colorMap) {
         for (PieChart.Data data : chart.getData()) {
@@ -244,24 +228,22 @@ public class DashBoardView implements ViewProvider {
     private Map<String, Integer> getStatusCounts() {
         Map<String, Integer> counts = new HashMap<>();
         for (Task task : tasks) {
+            if (role.equalsIgnoreCase("Team Member") && !task.getAssignedTo().equalsIgnoreCase(username)) {
+                continue;
+            }
             String status = (task.getStatus() != null) ? task.getStatus() : "Unknown";
             counts.put(status, counts.getOrDefault(status, 0) + 1);
-
         }
         return counts;
     }
 
     private TextFlow createStyledText(String label, String value) {
         Text labelText = new Text(label);
-        labelText.setStyle("-fx-font-weight: bold; -fx-fill: #2c3e50;-fx-font-size: 15px;-fx-font-style:  italic;");
+        labelText.setStyle("-fx-font-weight: bold; -fx-fill: #2c3e50;-fx-font-size: 15px;-fx-font-style: italic;");
 
         Text valueText = new Text((value != null && !value.isEmpty()) ? value : "N/A");
-        valueText.setStyle("-fx-fill: #34495e;-fx-font-size: 15px;-fx-font-style:  italic;");
+        valueText.setStyle("-fx-fill: #34495e;-fx-font-size: 15px;-fx-font-style: italic;");
 
         return new TextFlow(labelText, valueText);
     }
-
-
-
-
 }

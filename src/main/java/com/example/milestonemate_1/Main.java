@@ -21,7 +21,7 @@ public class Main extends Application {
     }
 }
 //
-//| Role            | What to Show                                        |
+//| Role            | What to Show
 //        | --------------- | --------------------------------------------------- |
 //        | **Manager**     | All projects summary, team stats, global pie chart  |
 //        | **Team Lead**   | Tasks to review, team progress, task approval rates |
